@@ -1,0 +1,38 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect src/index.js",
+    "watch": "node-sass -w src/resources/scss/ -o src/public/css/",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tiendat06/BookingMovieTicket_NodeJS.git"
+  },
+  "keywords": [
+    "elearning",
+    "nodejs",
+    "elearning"
+  ],
+  "author": "Tiendat",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tiendat06/BookingMovieTicket_NodeJS/issues"
+  },
+  "homepage": "https://github.com/Tiendat06/BookingMovieTicket_NodeJS#readme",
+  "dependencies": {
+    "express": "^4.19.2",
+    "express-handlebars": "^7.1.2",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^8.4.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.1.0"
+  },
+  "devDependencies": {
+    "node-sass": "^9.0.0"
+  }
+}

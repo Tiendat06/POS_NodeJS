@@ -1,0 +1,38 @@
+.header-left__para, .header-right__para {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 14px; }
+
+.header-left__para:hover, .header-right__para:hover {
+  color: #adacac;
+  text-decoration: none; }
+
+.header {
+  height: var(--header-height);
+  top: 0; }
+
+.header-nav {
+  height: var(--header-height); }
+
+.header-right__para:hover {
+  cursor: pointer;
+  background-color: var(--bg-success); }
+
+.footer-left__para, .footer-middle__para {
+  color: white;
+  text-decoration: none; }
+
+.footer-left__para:hover, .footer-middle__para:hover {
+  color: var(--main-bg-color);
+  text-decoration: none; }
+
+.home__movie-list::-webkit-scrollbar {
+  display: none; }
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%; }
+
+.home__movie-btn--info:hover {
+  background-color: var(--bg-success); }
