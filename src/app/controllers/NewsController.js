@@ -5,8 +5,8 @@ const Account = require("../models/Account");
 class NewsController{
 
     // [GET] news
-    async index(req, res, next){
-        await Courses.find({})
+    index(req, res, next){
+        Courses.find({})
         .then((result) => {
             res.render('news', {result: result});
         })
