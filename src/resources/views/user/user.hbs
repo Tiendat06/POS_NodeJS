@@ -21,7 +21,298 @@
                         </i> Manage User</a>
                 </li>
             </ul>
+
+            <div class="card">
+                <div class="user-management d-flex flex-wrap justify-content-between align-items-center">
+                    <h5 class="card-header">User Management</h5>
+                    <div class="btn__add-user p-4">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal_add-user"
+                            type="submit"><i class='bx bx-user-plus'></i> Add User</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Address</th>
+                                    <th>Birthday</th>
+                                    <th>Gender</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each userList}}
+                                <tr>
+                                    <td>{{sum @index 1}}</td>
+                                    <td>
+                                        {{!-- <i class="fab fa-angular fa-lg text-danger me-3"></i> --}}
+                                        {{!-- <img style="width: 80px;" src="{{this.user_img}}" alt="" srcset=""> --}}
+                                        <ul
+                                            class="list-unstyled d-flex users-list m-0 avatar-group d-flex align-items-center">
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                style="margin-right: 5px;"
+                                                title="{{this.user_first_name}} {{this.user_last_name}}">
+                                                <img src="{{this.user_img}}" style="object-fit:cover" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                            <strong>{{this.user_first_name}} {{this.user_last_name}}</strong>
+                                        </ul>
+                                    </td>
+                                    <td>{{this.user_email}}</td>
+                                    <td>{{this.user_phone}}</td>
+                                    <td>{{this.user_address}}</td>
+                                    <td>{{convertDate this.user_dob}}</td>
+                                    <td>{{this.user_gender}}</td>
+                                    {{!-- <td>
+                                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                title="Lilian Fuller">
+                                                <img src="/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                title="Sophia Wilkerson">
+                                                <img src="/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                title="Christina Parker">
+                                                <img src="/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                        </ul>
+                                    </td> --}}
+                                    {{!-- <td><span class="badge bg-label-primary me-1">Active</span></td> --}}
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu position-fixed" style="z-index: 1;">
+                                                <button data-bs-toggle="modal" data-bs-target="#backDropModal_edit-user" 
+                                                    data-user_id="{{this.user_id}}"
+                                                    data-user_first_name="{{this.user_first_name}}"
+                                                    data-user_last_name="{{this.user_last_name}}"
+                                                    data-user_email="{{this.user_email}}"
+                                                    data-user_phone="{{this.user_phone}}"
+                                                    data-user_address="{{this.user_address}}"
+                                                    data-dob="{{this.user_dob}}" 
+                                                    data-gender="{{this.user_gender}}"
+                                                    data-user_img="{{this.user_img}}"
+                                                    data-user_account_id="{{this.account_id}}" class="dropdown-item btn-show-details"
+                                                    ><i class="bx bx-edit-alt me-1"></i> Edit</button>
+                                                <button data-bs-toggle="modal" data-bs-target="#backDropModal_delete-user" 
+                                                    data-user_id="{{this.user_id}}"
+                                                    data-user_first_name="{{this.user_first_name}}"
+                                                    data-user_last_name="{{this.user_last_name}}" class="dropdown-item btn-show-delete"
+                                                    ><i class="bx bx-trash me-1"></i> Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
-<!-- / Content -->
+
+<!-- Modal Backdrop -->
+
+
+<!-- Modal add -->
+<div class="modal fade" id="backDropModal_add-user" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Add User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-2">
+                    <div class="col mb-3">
+                        <label for="firstNameBackdrop" class="form-label">First Name</label>
+                        <input type="text" name="firstname_add" id="firstNameBackdrop" class="form-control"
+                            placeholder="Enter first name" />
+                    </div>
+                    <div class="col mb-3">
+                        <label for="lastNameBackdrop" class="form-label">Last Name</label>
+                        <input type="text" name="lastname_add" id="lastNameBackdrop" class="form-control"
+                            placeholder="Enter last name" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="phoneBackdrop" class="form-label">Phone number</label>
+                        <input type="text" name="phone_add" id="phoneBackdrop" class="form-control"
+                            placeholder="Enter phone number" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="emailBackdrop" class="form-label">Email</label>
+                        <input type="email" name="email_add" id="emailBackdrop" class="form-control"
+                            placeholder="Enter email" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="genderBackdrop" class="form-label">Gender</label>
+                        <select id="genderBackdrop" class="select form-select" name="gender_add">
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="dobBackdrop" class="form-label">Birthday</label>
+                        <input type="date" name="dob_add" id="dobBackdrop" class="form-control"
+                            placeholder="DD / MM / YY" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="addressBackdrop" class="form-label">Address</label>
+                        <input type="text" name="address_name" id="addressBackdrop" class="form-control"
+                            placeholder="Enter address" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="add-user__status" role="alert"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_add" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal edit -->
+<div class="modal fade" id="backDropModal_edit-user" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Edit User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="user_id_edit" id="user_id_edit">
+                <input type="hidden" name="old_email_edit" id="old_email_edit">
+                <div class="row g-2">
+                    <div class="col mb-3">
+                        <label for="firstName_edit" class="form-label">First Name</label>
+                        <input type="text" name="firstname_edit" id="firstName_edit" class="form-control"
+                            placeholder="Enter first name" />
+                    </div>
+                    <div class="col mb-3">
+                        <label for="lastName_edit" class="form-label">Last Name</label>
+                        <input type="text" name="lastname_edit" id="lastName_edit" class="form-control"
+                            placeholder="Enter last name" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="phone_edit" class="form-label">Phone number</label>
+                        <input type="text" name="phone_edit" id="phone_edit" class="form-control"
+                            placeholder="Enter phone number" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="email_edit" class="form-label">Email</label>
+                        <input type="email" name="email_edit" id="email_edit" class="form-control"
+                            placeholder="Enter email" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="gender_edit" class="form-label">Gender</label>
+                        <select id="gender_edit" class="select form-select" name="gender_edit">
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="dob_edit" class="form-label">Birthday</label>
+                        <input type="date" name="dob_edit" id="dob_edit" class="form-control"
+                            placeholder="DD / MM / YY" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="address_edit" class="form-label">Address</label>
+                        <input type="text" name="address_edit" id="address_edit" class="form-control"
+                            placeholder="Enter address" />
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="edit-user__status" role="alert"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_edit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal delete -->
+<div class="modal fade" id="backDropModal_delete-user" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Delete User</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="user_id_delete" id="user_id_delete">
+                <p class="user-delete__para mb-0"></p>
+            </div>
+            
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="delete-user__status" role="alert"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_delete" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    jsInUser();
+</script>

@@ -60,6 +60,7 @@
     <link rel="stylesheet" href="/vendor/css/pages/page-auth.css" />
     <link rel="stylesheet" href="/vendor/css/pages/page-icons.css" />
     <link rel="stylesheet" href="/vendor/css/pages/page-account-settings.css" />
+    <link rel="stylesheet" href="/css/app.css">
     <!-- Helpers -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/vendor/js/helpers.js"></script>
@@ -97,11 +98,20 @@
 
                 </div>
             </div>
+
+            <div class="overlay position-fixed top-0 bottom-0 end-0 start-0 d-none" id="overlay"
+                style="background-color: rgba(0, 0, 0, 0.1);">
+                <div class="spinner position-relative top-50 end-50 bottom-50 start-50">
+                    <div class="spinner-border spinner-border-lg text-primary" role="status"></div>
+                    <p class="visually-hidde" style="font-size: 18px;">Loading...</p>
+                </div>
+            </div>
             {{> overlay/overlay}}
         </div>
         <script>
             jsInHome()
         </script>
+
         {{/if}}
 
         {{!-- {{> footer}} --}}

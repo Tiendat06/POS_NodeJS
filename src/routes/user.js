@@ -16,6 +16,15 @@ const upload = multer({storage: storage}).single('img');
 // [GET] /user
 router.get("/", userMiddleWare.index);
 
+// [POST, AJAX] /user/add
+router.post("/add", userMiddleWare.add_user);
+
+// [PUT, AJAX] /user/edit
+router.put("/edit", userMiddleWare.edit_user);
+
+// [DELETE, AJAX] /user/delete
+router.delete("/delete", userMiddleWare.delete_user);
+
 // [GET] /user/profile
 router.get('/profile', userMiddleWare.profile);
 

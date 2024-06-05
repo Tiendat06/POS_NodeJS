@@ -1,68 +1,75 @@
 @import 'variables';
 
-// header
-.header-left__para, .header-right__para{
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 14px;
-}
+// // header
+// .header-left__para, .header-right__para{
+//     color: white;
+//     text-decoration: none;
+//     font-weight: bold;
+//     font-size: 14px;
+// }
 
-.header-left__para:hover, .header-right__para:hover{
-    color: rgb(173, 172, 172);
-    text-decoration: none;
-}
+// .header-left__para:hover, .header-right__para:hover{
+//     color: rgb(173, 172, 172);
+//     text-decoration: none;
+// }
 
-.header{
-    height: var(--header-height);
-    top: 0;
-    // margin-bottom: var(--header-height);
-}
+// .header{
+//     height: var(--header-height);
+//     top: 0;
+//     // margin-bottom: var(--header-height);
+// }
 
-.header-nav{
-    height: var(--header-height);
+// .header-nav{
+//     height: var(--header-height);
 
-}
+// }
 
-.header-right__para:hover{
-    cursor: pointer;
-    color: white;
-    background-color: var(--bg-success);
-}
+// .header-right__para:hover{
+//     cursor: pointer;
+//     color: white;
+//     background-color: var(--bg-success);
+// }
 
-// footer
-.footer-left__para, .footer-middle__para{
-    color: white;
-    text-decoration: none;
-}
+// // footer
+// .footer-left__para, .footer-middle__para{
+//     color: white;
+//     text-decoration: none;
+// }
 
-.footer-left__para:hover, .footer-middle__para:hover{
-    color: var(--main-bg-color);
-    text-decoration: none;
-}
+// .footer-left__para:hover, .footer-middle__para:hover{
+//     color: var(--main-bg-color);
+//     text-decoration: none;
+// }
 
-// home page
+// // home page
 
-.home__movie-list::-webkit-scrollbar{
+// .home__movie-list::-webkit-scrollbar{
+//     display: none;
+// }
+
+// // .home__movie-list {
+// //     display: flex;
+// //     overflow: hidden;
+// //     white-space: nowrap;
+// // }
+
+// // .home__moive-item {
+// //     display: inline-block;
+// //     margin-right: 10px;
+// // }
+
+// .carousel-control-prev,
+// .carousel-control-next {
+//     width: 5%;
+// }
+
+// .home__movie-btn--info:hover{
+//     background-color: var(--bg-success);
+// }
+
+// // 
+
+
+.table-responsive::-webkit-scrollbar{
     display: none;
-}
-
-// .home__movie-list {
-//     display: flex;
-//     overflow: hidden;
-//     white-space: nowrap;
-// }
-
-// .home__moive-item {
-//     display: inline-block;
-//     margin-right: 10px;
-// }
-
-.carousel-control-prev,
-.carousel-control-next {
-    width: 5%;
-}
-
-.home__movie-btn--info:hover{
-    background-color: var(--bg-success);
 }

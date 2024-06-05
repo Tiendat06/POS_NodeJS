@@ -10,6 +10,8 @@ const db = require("./config/db");
 const templatesEngine = require('./utils/handlebars');
 const cloudinary = require('cloudinary');
 const multer = require('multer');
+const method_override = require('method-override');
+
 
 cloudinary.v2.config({
     cloud_name: 'dervs0fx5',
@@ -24,14 +26,14 @@ db.connect();
 // static path
 app.use(express.static(path.join(__dirname, 'public')));
 
-// middleware
+// middleware, use to send JSON to server
 app.use(express.urlencoded({
     extended: true,
 }));
 app.use(express.json());
 // app.use(bodyParser.json());
 
-
+// session middleware
 app.use(session({
     secret: '123456', // Khóa bí mật để ký session ID cookie
     resave: false, // Không lưu session nếu không có thay đổi
@@ -41,6 +43,9 @@ app.use(session({
         maxAge: 60 * 60 * 1000 
     } // Thiết lập cookie (secure: true chỉ cho HTTPS)
 }));
+
+// rest method api
+app.use(method_override('_method'));
 
 
 // TEMPLATE ENGINE
