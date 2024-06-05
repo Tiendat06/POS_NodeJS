@@ -6,7 +6,6 @@ class FilmBuilder{
     #director;
     #cast;
     #gerne;
-    #type;
     #runningTime;
     #releaseDate;
     #description;
@@ -38,11 +37,6 @@ class FilmBuilder{
 
     setGerne (gerne){
         this.#gerne = gerne;
-        return this;
-    }
-
-    setType (type){
-        this.#type = type;
         return this;
     }
 
@@ -87,8 +81,8 @@ class FilmBuilder{
     }
 
     build(){
-        return new Film(this.id, this.name, this.director, this.cast, this.gerne, this.runningTime, 
-            this.releaseDate, this.description, this.language, this.rated, this.photo, this.trailer, this.slider);
+        return new Film(this.#id, this.#name, this.#director, this.#cast, this.#gerne, this.#runningTime, 
+            this.#releaseDate, this.#description, this.#language, this.#rated, this.#photo, this.#trailer, this.#slider);
     }
 }
 

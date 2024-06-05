@@ -7,8 +7,9 @@ const path = require('path');
 const session = require('express-session');
 const route = require('./routes');
 const db = require("./config/db");
-
+const templatesEngine = require('./utils/handlebars');
 const cloudinary = require('cloudinary');
+const multer = require('multer');
 
 cloudinary.v2.config({
     cloud_name: 'dervs0fx5',
@@ -28,24 +29,34 @@ app.use(express.urlencoded({
     extended: true,
 }));
 app.use(express.json());
+// app.use(bodyParser.json());
+
 
 app.use(session({
     secret: '123456', // Khóa bí mật để ký session ID cookie
     resave: false, // Không lưu session nếu không có thay đổi
     saveUninitialized: true, // Lưu session mới ngay cả khi không có dữ liệu
-    cookie: { secure: false } // Thiết lập cookie (secure: true chỉ cho HTTPS)
+    cookie: { 
+        secure: false,
+        maxAge: 60 * 60 * 1000 
+    } // Thiết lập cookie (secure: true chỉ cho HTTPS)
 }));
 
 
 // TEMPLATE ENGINE
-app.engine('hbs', engine({
-    extname: '.hbs'
-}));
+templatesEngine(app);
+
 app.set('view engine', 'hbs');
 app.set('views', path.join(__dirname, 'resources', 'views'))
 
 // MORGAN LOGGER
-app.use(morgan('combined'));
+// combined
+app.use(morgan('tiny'));
+
+// const router = express.Router();
+// router.get('', function(req, res, next){
+     
+// });
 
 // Route
 route(app);

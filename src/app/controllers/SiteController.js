@@ -1,12 +1,11 @@
-const Film = require("../models/Film");
 
-class SiteController{
 
-    index(req, res, next){
-        req.session.home = true;
-        res.render('home', {
-            home: req.session.home
-        });
+
+class SiteController {
+
+    // [GET] /
+    index(req, res, next) {
+        res.render('home');
     }
 
 }

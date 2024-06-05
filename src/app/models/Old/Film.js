@@ -7,7 +7,6 @@ const Film = new Schema({
     film_director: {type: String, default: '', maxLength: 500},
     film_cast: {type: String, default: '', maxLength: 500},
     film_gerne: {type: String, default: '', maxLength: 500},
-    film_type: {type: String, default: '', maxLength: 500},
     film_running_time: {type: String, default: '0 minutes', maxLength: 500},
     film_release_date: {type: String, default: '', maxLength: 500},
     film_description: {type: String, default: '', maxLength: 500},

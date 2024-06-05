@@ -9,6 +9,7 @@ class UserBuilder{
     #user_address;
     #user_dob;
     #user_gender;
+    #user_img;
     #user_account_id;
 
     setUserId(user_id){
@@ -51,6 +52,11 @@ class UserBuilder{
         return this;
     }
 
+    setUserImg(user_img){
+        this.#user_img = user_img;
+        return this;
+    }
+
     setUserAccountId(user_account_id){
         this.#user_account_id = user_account_id;
         return this;
@@ -58,7 +64,7 @@ class UserBuilder{
 
     build(){
         return new User(this.#user_id, this.#user_first_name, this.#user_last_name, this.#user_email, 
-            this.#user_phone, this.#user_address, this.#user_dob, this.#user_gender, this.#user_account_id);
+            this.#user_phone, this.#user_address, this.#user_dob, this.#user_gender, this.#user_img, this.#user_account_id);
     }
 }
 
