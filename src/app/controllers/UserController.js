@@ -27,9 +27,13 @@ class UserController{
 
     // [POST, AJAX] /user/add
     add_user(req, res, next, requestJson, responseData){
+        var email = requestJson.email;
+        req.session.user_email = email;
+
         userService.add_user(next, requestJson)
         .then(result => {
             if(result[0].length > 0 && result[1].length > 0){
+                userService.send_mail(req, requestJson);
                 return res.json(responseData.success);
             } else{
                 throw new Error(responseData.fail);
@@ -39,6 +43,11 @@ class UserController{
             // console.log(err);
             return res.json(err);
         })
+    }
+
+    // [GET] /user/user_verify?token=...
+    async user_verify(req, res, next){
+        await userService.user_verify(req, res);
     }
 
     // [PUT, AJAX] /user/edit
@@ -60,7 +69,7 @@ class UserController{
     delete_user(req, res, next, requestJson, responseData){
         userService.delete_user(requestJson)
         .then(result => {
-            if(result.deletedCount > 0){
+            if(result[0].deletedCount > 0 && result[1].deletedCount > 0){
                 res.json(responseData.success);
             } else{
                 throw new Error(responseData.fail);

@@ -6,6 +6,7 @@ const Account = new Schema({
     account_password: {type: String, default: null, maxLength: 500},
     account_code_forgot: {type: String, default: '', maxLength: 500},
     role_id: {type: Number, default: 1, maxLength: 10},
+    jwt: {type: String, default: '', maxLength: 500},
     createAt: {type: Date, default: Date.now()},
     updateAt: {type: Date, default: Date.now()},
     deleted: {type: Boolean, default: false},

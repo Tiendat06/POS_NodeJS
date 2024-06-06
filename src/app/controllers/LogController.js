@@ -25,11 +25,10 @@ class LogController {
     }
 
     // [POST] /log/login
-    login_POST(req, res, next){
+    async login_POST(req, res, next){
         var formData = req.body;
-        var error = 'Invalid email or password !!';
-        if(logServices.checkLogin(req, res, next, formData, error) == true){
-            console.log(logServices.checkLogin(req, res, next, formData, error));
+        var error = 'Invalid email or password or your account has been banned !!';
+        if(await logServices.checkLogin(req, res, next, formData, error) == true){
             req.session.account = formData.email;
             res.redirect('/');
         } else{

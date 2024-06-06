@@ -19,6 +19,9 @@ router.get("/", userMiddleWare.index);
 // [POST, AJAX] /user/add
 router.post("/add", userMiddleWare.add_user);
 
+// [GET] /user/user_verify
+router.get("/user_verify", userController.user_verify);
+
 // [PUT, AJAX] /user/edit
 router.put("/edit", userMiddleWare.edit_user);
 

@@ -25,7 +25,6 @@ class UserRepository{
             return false;
         })
     }
-    
 }
 
 module.exports = new UserRepository;

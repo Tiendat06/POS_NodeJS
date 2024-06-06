@@ -18,68 +18,16 @@
     <link rel="stylesheet" href="/css/responsive.css">
     <title>Document</title>
 </head> --}}
+
+
+<!DOCTYPE html>
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
     data-template="vertical-menu-template-free">
 
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
-
-    <title>POS</title>
-
-    <meta name="description" content="" />
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
-
-    <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
-        rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <!-- Icons. Uncomment required icon fonts -->
-    <link rel="stylesheet" href="/vendor/fonts/boxicons.css" />
-
-    <!-- Core CSS -->
-    <link rel="stylesheet" href="/vendor/css/core.css" class="template-customizer-core-css" />
-    <link rel="stylesheet" href="/vendor/css/theme-default.css" class="template-customizer-theme-css" />
-    <link rel="stylesheet" href="/css/demo.css" />
-
-    <!-- Vendors CSS -->
-    <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
-
-    <link rel="stylesheet" href="/vendor/libs/apex-charts/apex-charts.css" />
-
-    <!-- Page CSS -->
-    <link rel="stylesheet" href="/vendor/css/pages/page-misc.css" />
-    <link rel="stylesheet" href="/vendor/css/pages/page-auth.css" />
-    <link rel="stylesheet" href="/vendor/css/pages/page-icons.css" />
-    <link rel="stylesheet" href="/vendor/css/pages/page-account-settings.css" />
-    <link rel="stylesheet" href="/css/app.css">
-    <!-- Helpers -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="/vendor/js/helpers.js"></script>
-
-    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
-    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
-    <script src="/js/config.js"></script>
-    <script src="/js/index.js"></script>
-</head>
+    {{> header}}
 
 <body class="bg--outside">
 
-    {{!-- <div class="app" style="min-height: 100vh;"> --}}
-        {{!-- {{> header}} --}}
-
-        {{!-- <div class="container" style="">
-            <div class="row w-100">
-            </div>
-        </div> --}}
         {{#if notInMain}}
         {{{body}}}
         {{else}}
@@ -118,33 +66,7 @@
 
         {{!--
     </div> --}}
-    <!-- Core JS -->
-    <!-- build:js assets/vendor/js/core.js -->
-    <script src="/vendor/libs/jquery/jquery.js"></script>
-    <script src="/vendor/libs/popper/popper.js"></script>
-    <script src="/vendor/js/bootstrap.js"></script>
-    <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
-
-    <script src="/vendor/js/menu.js"></script>
-    <!-- endbuild -->
-
-    <!-- Vendors JS -->
-    <script src="/vendor/libs/apex-charts/apexcharts.js"></script>
-
-    <!-- Main JS -->
-    <script src="/js/main.js"></script>
-
-    <!-- Page JS -->
-    <script src="/js/dashboards-analytics.js"></script>
-    <script src="/js/pages-account-settings-account.js"></script>
-    <script src="/js/extended-ui-perfect-scrollbar.js"></script>
-    <script src="/js/form-basic-inputs.js"></script>
-    <script src="/js/ui-modals.js"></script>
-    <script src="/js/ui-popover.js"></script>
-    <script src="/js/ui-toasts.js"></script>
-
-    <!-- Place this tag in your head or just before your close body tag. -->
-    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    {{> corejs}}
 </body>
 
 </html>

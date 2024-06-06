@@ -11,8 +11,14 @@ const templatesEngine = require('./utils/handlebars');
 const cloudinary = require('cloudinary');
 const multer = require('multer');
 const method_override = require('method-override');
+const nodemailer = require('nodemailer');
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken')
 
+// dotenv
+dotenv.config();
 
+// cloudinary
 cloudinary.v2.config({
     cloud_name: 'dervs0fx5',
     api_key: '195853691687668',
@@ -57,6 +63,8 @@ app.set('views', path.join(__dirname, 'resources', 'views'))
 // MORGAN LOGGER
 // combined
 app.use(morgan('tiny'));
+
+// config nodemailer
 
 // const router = express.Router();
 // router.get('', function(req, res, next){

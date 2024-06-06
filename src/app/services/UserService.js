@@ -5,6 +5,11 @@ const userRepository = require('../repository/UserRepository');
 const accountRepository = require("../repository/AccountRepository");
 const UserBuilder = require("../models/BuilderPattern/User/UserBuilder");
 const Account = require("../models/Account");
+const jwt = require('jsonwebtoken');
+const dotenv = require('dotenv');
+const nodemailer = require('nodemailer');
+const crypto = require('crypto');
+dotenv.config();
 
 class UserService{
 
@@ -52,7 +57,8 @@ class UserService{
             'account_id': account_id,
             'account_password': email,
             'account_code_forgot': "",
-            'role_id': 2
+            'jwt': '',
+            'role_id': 3
         }
 
         return Promise.all([
@@ -65,6 +71,67 @@ class UserService{
         .catch(err => {
             return err;
         })
+    }
+
+    async send_mail(req, requestJson){
+        const transporter = nodemailer.createTransport({
+            host: process.env.MAIL_SERVER,
+            port: process.env.MAIL_PORT,
+            secure: false,
+            auth: {
+                user: process.env.MAIL_USERNAME,
+                pass: process.env.MAIL_PASSWORD
+            }
+        });
+        var email = requestJson.email;
+        const jsonWebToken = crypto.randomBytes(64).toString('hex');
+        const token = jwt.sign(
+            { email }, 
+            jsonWebToken,
+            { expiresIn: '5m' }
+        );
+        const url = `http://localhost:${process.env.PORT}/user/user_verify?token=${token}`;
+        const mailOptions = {
+            from: process.env.MAIL_USERNAME,
+            to: email,
+            subject: 'Email Verification',
+            html: `<p>Please verify your account by clicking the link below, you only have 5 minites to do this action:</p>\n<p><a href="${url}">${url}</a></p>`,
+        }
+
+        transporter.sendMail(mailOptions, async (error, info) => {
+            if(error){
+                return res.redirect("/error")
+            } else{
+                // var user_email = req.session.account;
+                var user = await User.findOne({user_email: email});
+                await Account.updateOne({account_id: user.account_id}, {
+                    jwt: jsonWebToken
+                });
+            }
+        });
+        
+    }
+
+    async user_verify(req, res){
+        try{
+            const token = req.query.token;
+            var user_email = req.session.user_email;
+            delete req.session.user_email;
+            var user = await User.findOne({user_email: user_email});
+            var account = await Account.findOne({account_id: user.account_id});
+
+            const decoded = jwt.verify(token, account.jwt);
+            await Account.updateOne({account_id: user.account_id}, {
+                role_id: 2
+            });
+            res.render("log/verified", {
+                notInMain: true,
+            });
+        } catch (error){
+            res.render("log/failed", {
+                notInMain: true
+            });
+        }
     }
 
     async edit_user(requestJson){
@@ -99,7 +166,11 @@ class UserService{
 
     async delete_user(requestJson){
         var user_id = requestJson.userId;
-        return User.deleteOne({user_id: user_id})
+        var user = await User.findOne({user_id: user_id});
+        return Promise.all([
+            User.deleteOne({user_id: user_id}), 
+            Account.deleteOne({account_id: user.account_id})
+        ])
         .then(result => {
             return result;
         })
