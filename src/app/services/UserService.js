@@ -110,15 +110,17 @@ class UserService{
             html: `<p>Please verify your account by clicking the link below, you only have 5 minites to do this action:</p>\n<p><a href="${url}">${url}</a></p>`,
         }
 
-        transporter.sendMail(mailOptions, async (error, info) => {
+        return transporter.sendMail(mailOptions, async (error, info) => {
             if(error){
-                return res.redirect("/error")
+                console.log("Error: ", error);
+                return false;
             } else{
                 // var user_email = req.session.account;
                 var user = await User.findOne({user_email: email});
                 await Account.updateOne({account_id: user.account_id}, {
                     jwt: jsonWebToken
                 });
+                return true;
             }
         });
         
@@ -140,6 +142,7 @@ class UserService{
                 notInMain: true,
             });
         } catch (error){
+            console.log(error);
             res.render("log/failed", {
                 notInMain: true
             });

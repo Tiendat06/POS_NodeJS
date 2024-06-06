@@ -1,7 +1,7 @@
 
-function jsInProfile(){
-    $(document).ready(() =>{
-        $("#btn_save").click(function(){
+function jsInProfile() {
+    $(document).ready(() => {
+        $("#btn_save").click(function () {
             // var profile_id = $("#profile_id").val();
             $("#overlay").removeClass('d-none');
             var firstName = $("#firstName").val();
@@ -25,24 +25,24 @@ function jsInProfile(){
             formData.append('address', address);
             formData.append('img', img.files[0]);
             formData.append('oldImg', oldImg);
-    
+
             $.ajax({
                 url: '/user/profile/edit',
                 type: 'POST',
                 contentType: false,
                 processData: false,
                 data: formData,
-                success: function(response){
+                success: function (response) {
                     $("#edit-profile__status").removeClass('d-none');
                     $("#edit-profile__status").addClass('alert-primary');
                     $("#edit-profile__status").html(response);
                 },
-                error: function(error){
+                error: function (error) {
                     $("#edit-profile__status").removeClass('d-none');
                     $("#edit-profile__status").addClass('alert-danger');
                     $("#edit-profile__status").html(error);
                 },
-                complete: function(){
+                complete: function () {
                     $("#overlay").addClass('d-none');
                 }
             })
@@ -50,7 +50,7 @@ function jsInProfile(){
     })
 }
 
-function jsInUser(){
+function jsInUser() {
     // add
     $(document).ready(() => {
         $("#btn_add").click(() => {
@@ -75,18 +75,18 @@ function jsInUser(){
                     dob: dob,
                     address: address,
                 }),
-                success: function(response){
+                success: function (response) {
                     $("#add-user__status").removeClass('d-none');
                     $("#add-user__status").addClass('alert-primary');
                     $("#add-user__status").html(response);
                 },
-                error: function(error){
+                error: function (error) {
                     $("#add-user__status").removeClass('d-none');
                     $("#add-user__status").removeClass('alert-danger');
                     $("#add-user__status").html(error);
                 },
-                complete: function(){
-                    
+                complete: function () {
+
                 }
 
             })
@@ -95,7 +95,7 @@ function jsInUser(){
 
     // edit, get data
     $(document).ready(() => {
-        $(".btn-show-details").click(function(){
+        $(".btn-show-details").click(function () {
             var userId = $(this).data('user_id');
             var user_first_name = $(this).data('user_first_name');
             var user_last_name = $(this).data('user_last_name');
@@ -132,7 +132,7 @@ function jsInUser(){
             var dob = $("#dob_edit").val();
             var address = $("#address_edit").val();
             var old_mail = $("#old_email_edit").val();
-    
+
             $.ajax({
                 url: '/user/edit?_method=PUT',
                 contentType: 'application/json',
@@ -148,12 +148,12 @@ function jsInUser(){
                     address: address,
                     old_mail: old_mail
                 }),
-                success: function(response){
+                success: function (response) {
                     $("#edit-user__status").removeClass('d-none');
                     $("#edit-user__status").addClass('alert-primary');
                     $("#edit-user__status").html(response);
                 },
-                error: function(error){
+                error: function (error) {
                     $("#edit-user__status").removeClass('d-none');
                     $("#edit-user__status").addClass('alert-danger');
                     $("#edit-user__status").html(error);
@@ -165,7 +165,7 @@ function jsInUser(){
 
     // delete
     $(document).ready(() => {
-        $(".btn-show-delete").click(function() {
+        $(".btn-show-delete").click(function () {
             var userId = $(this).data('user_id');
             var user_first_name = $(this).data('user_first_name');
             var user_last_name = $(this).data('user_last_name');
@@ -189,12 +189,12 @@ function jsInUser(){
                 data: JSON.stringify({
                     userId: userId,
                 }),
-                success: function(response){
+                success: function (response) {
                     $("#delete-user__status").removeClass('d-none');
                     $("#delete-user__status").addClass('alert-primary');
                     $("#delete-user__status").html(response);
                 },
-                error: function(error){
+                error: function (error) {
                     $("#delete-user__status").removeClass('d-none');
                     $("#delete-user__status").addClass('alert-danger');
                     $("#delete-user__status").html(error);
@@ -204,20 +204,111 @@ function jsInUser(){
     })
 }
 
-function jsInHome(){
+function jsInHome() {
     fetch('/user/profile/info')
-    .then(response => {
-        return response.json();
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            var user_img = data.user_img;
+            var user_first_name = data.user_first_name;
+            var user_last_name = data.user_last_name;
+            $("#userImgHome").attr('src', user_img);
+            $("#userImgHome_2").attr('src', user_img);
+            $("#userNameHome").html(`${user_first_name} ${user_last_name}`);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+function jsInAccount() {
+    // reset
+    $(document).ready(() => {
+        $(".btn-show-reset").click(function () {
+            var account_id = $(this).data('account_id');
+            var user_email = $(this).data('user_email');
+            var user_name = $(this).data('user_name');
+
+            $("#account_id_reset").val(account_id);
+            $("#email_reset").val(user_email);
+            $(".account-reset__para").html(`Are you sure to reset '${user_name}' account password ?`)
+        })
+    });
+
+    // reset, ajax
+    $(document).ready(() => {
+        $("#btn_reset").click(function(){
+            var account_id = $("#account_id_reset").val();
+            var user_email = $("#email_reset").val();
+
+            $.ajax({
+                url: '/account/reset_password?_method=PUT',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    account_id: account_id,
+                    user_email: user_email,
+                }),
+                success: function(response){
+                    $("#reset-user__status").removeClass('d-none');
+                    $("#reset-user__status").addClass('alert-primary');
+                    $("#reset-user__status").html(response);
+                },
+                error: function(error){
+                    $("#reset-user__status").removeClass('d-none');
+                    $("#reset-user__status").addClass('alert-danger');
+                    $("#reset-user__status").html(error);
+                },
+                complete: function(){
+
+                }
+            })
+        })
     })
-    .then(data => {
-        var user_img = data.user_img;
-        var user_first_name = data.user_first_name;
-        var user_last_name = data.user_last_name;
-        $("#userImgHome").attr('src', user_img);
-        $("#userImgHome_2").attr('src', user_img);
-        $("#userNameHome").html(`${user_first_name} ${user_last_name}`);
+
+    // send mail
+    $(document).ready(() => {
+        $(".btn-show-send-mail").click(function () {
+            var account_id = $(this).data('account_id');
+            var user_email = $(this).data('user_email');
+            var user_name = $(this).data('user_name');
+
+            $("#account_id_send").val(account_id);
+            $("#email_send").val(user_email);
+            $(".account-send-mail__para").html(`Send verification mail to '${user_name}' account ?`)
+        })
+    });
+
+    // reset, ajax
+    $(document).ready(() => {
+        $("#btn_send").click(function(){
+            var account_id = $("#account_id_send").val();
+            var user_email = $("#email_send").val();
+
+            $.ajax({
+                url: '/account/send_mail?_method=PUT',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                    account_id: account_id,
+                    email: user_email,
+                }),
+                success: function(response){
+                    $("#send-user__status").removeClass('d-none');
+                    $("#send-user__status").addClass('alert-primary');
+                    $("#send-user__status").html(response);
+                },
+                error: function(error){
+                    $("#send-user__status").removeClass('d-none');
+                    $("#send-user__status").addClass('alert-danger');
+                    $("#send-user__status").html(error);
+                },
+                complete: function(){
+
+                }
+            })
+        })
     })
-    .catch(err => {
-        console.log(err);
-    })
+
 }

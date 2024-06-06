@@ -1,9 +1,7 @@
 module.exports = {
     // list
     multipleMongooseToObj: function (mongoosesArrays) {
-        return mongoosesArrays.map((mongoosesArrays) =>
-            mongoosesArrays.toObject(),
-        );
+        return mongoosesArrays.map((mongooseObj) => (mongooseObj && mongooseObj.toObject) ? mongooseObj.toObject() : mongooseObj);
     },
 
     // only 1

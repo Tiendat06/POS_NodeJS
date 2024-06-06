@@ -104,7 +104,7 @@ class UserMiddleWare{
 
     // [GET] /user/profile
     profile(req, res, next){
-        console.log('hi world bro !!')
+        // console.log('hi world bro !!')
         if(req.session.account){
             userController.profile(req, res, next);
         } else{

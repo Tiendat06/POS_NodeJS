@@ -112,7 +112,7 @@ class UserController{
 
     // [POST, AJAX] /user/profile/edit
     edit_profile(req, res, next, formData, responseData){
-        console.log('hi world');
+        // console.log('hi world');
         userService.edit_profile(req, formData, responseData)
         .then(result => {
             return res.json(result)
