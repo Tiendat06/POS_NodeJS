@@ -16,6 +16,9 @@ const upload = multer({storage: storage}).single('img');
 // [GET] /user
 router.get("/", userMiddleWare.index);
 
+// [GET] /user/profile
+router.get('/profile', userMiddleWare.profile);
+
 // [POST, AJAX] /user/add
 router.post("/add", userMiddleWare.add_user);
 
@@ -28,13 +31,13 @@ router.put("/edit", userMiddleWare.edit_user);
 // [DELETE, AJAX] /user/delete
 router.delete("/delete", userMiddleWare.delete_user);
 
-// [GET] /user/profile
-router.get('/profile', userMiddleWare.profile);
-
 // [POST] /user/profile/edit
 router.post('/profile/edit', upload, userMiddleWare.edit_profile);
 
 // [GET] /user/profile/info
 router.get('/profile/info', userMiddleWare.user_info);
+
+// [GET] /user/:page
+router.get("/:page", userMiddleWare.index);
 
 module.exports = router;

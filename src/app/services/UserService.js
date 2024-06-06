@@ -14,17 +14,29 @@ dotenv.config();
 class UserService{
 
     // [GET] /user
-    async index(){
+    async index(req){
+        const page = parseInt(req.params['page']) || 1;
+        const perPage = 10;
+        const totalCount = await User.countDocuments();
+        const totalPages = Math.ceil(totalCount / perPage);
+
         return User.find({})
+        .skip((page - 1) * perPage)
+        .limit(perPage)
         .then(result => {
             if(result){
-                return result;
-            } else{
+                return {
+                    result,
+                    page,
+                    totalPages,
+                    totalCount
+                };
+            } else {
                 throw new Error();
             }
         })
         .catch(err => {
-            return null;
+            return err;
         })
     }
 

@@ -8,20 +8,25 @@ class UserController{
 
     // [GET] /user
     index(req, res, next){
-        userService.index()
-        .then(userList => {
-            if(userList){
+        userService.index(req)
+        .then(result => {
+            if(result){
+                // console.log(result.totalPages);
+                const pagesArray = Array.from({ length: result.totalPages }, (_, i) => i + 1);
+
                 res.render("user/user", {
-                    userList: multipleMongooseToObj(userList)
+                    userList: multipleMongooseToObj(result.result),
+                    currentPage: result.page,
+                    totalPages: pagesArray
                 })
-            } else {
+            } else{
                 throw new Error();
             }
         })
         .catch(err => {
-            res.redirect("/error", {
+            res.render("error/error", {
                 error: err
-            });
+            })
         })
     }
 

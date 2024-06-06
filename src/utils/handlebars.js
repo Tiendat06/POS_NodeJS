@@ -8,8 +8,32 @@ function templatesEngine(app){
                 return a + b;
             },
 
+            minus(a, b){
+                return a - b;
+            },
+
             equal(a, b){
                 return a == b;
+            },
+
+            lessThan(a, b){
+                return a < b;
+            },
+
+            lessOrEqualThan(a, b){
+                return a <= b;
+            },
+
+            moreThan(a, b){
+                return a > b;
+            },
+
+            moreOrEqualThan(a, b){
+                return a >= b;
+            },
+
+            getArrayLength(array){
+                return array.length;
             },
 
             convertDate(date){
