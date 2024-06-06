@@ -5,7 +5,12 @@ const User = require('../models/User');
 class AccountService{
 
     // [GET] /account
-    async index(){
+    async index(req){
+        const page = parseInt(req.params['page']) || 1;
+        const perPage = 10;
+        const totalCount = await Account.countDocuments();
+        const totalPages = Math.ceil(totalCount / perPage);
+
         return Account.aggregate([
             {
                 $lookup: {
@@ -26,8 +31,16 @@ class AccountService{
             } , {
                 $unwind: '$user_db'
             }
-        ]).then(result => {
-            return result;
+        ])
+        .skip((page - 1) * perPage)
+        .limit(perPage)
+        .then(result => {
+            return {
+                result,
+                page,
+                totalPages,
+                totalCount
+            };
         }).catch(err => {
             return err;
         })

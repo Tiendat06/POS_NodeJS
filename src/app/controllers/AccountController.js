@@ -6,11 +6,15 @@ class AccountController{
 
     // [GET] /account
     async index(req, res, next){
-        return accountService.index()
+        return accountService.index(req)
         .then(result => {
             // console.log(result);
+            const pagesArray = Array.from({ length: result.totalPages }, (_, i) => i + 1);
+
             return res.render("account/account", {
-                accountList: multipleMongooseToObj(result)
+                accountList: multipleMongooseToObj(result.result),
+                currentPage: result.page,
+                totalPages: pagesArray
             });
         }).catch(err => {
             console.log(err);

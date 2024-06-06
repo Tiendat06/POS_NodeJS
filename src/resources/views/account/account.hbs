@@ -56,10 +56,11 @@
                                                 data-bs-placement="top" class="avatar avatar-xs pull-up"
                                                 style="margin-right: 5px;"
                                                 title="{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}">
-                                                <img src="{{this.user_db.user_img}}" style="object-fit:cover" alt="Avatar"
-                                                    class="rounded-circle" />
+                                                <img src="{{this.user_db.user_img}}" style="object-fit:cover"
+                                                    alt="Avatar" class="rounded-circle" />
                                             </li>
-                                            <strong>{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}</strong>
+                                            <strong>{{this.user_db.user_first_name}}
+                                                {{this.user_db.user_last_name}}</strong>
                                         </ul>
                                     </td>
                                     <td class="text-center">
@@ -84,25 +85,21 @@
                                         {{/if}}
                                     </td>
                                     <td class="text-center">
-                                        <span
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#backDropModal_reset-pwd"
-                                        data-account_id="{{this.account_id}}"
-                                        data-user_email="{{this.user_db.user_email}}"
-                                        data-user_name="{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}"
-                                        class="badge badge-center rounded-pill bg-primary p-3 cursor-pointer btn-show-reset">
-                                            <i class='bx bxs-key' ></i>
+                                        <span data-bs-toggle="modal" data-bs-target="#backDropModal_reset-pwd"
+                                            data-account_id="{{this.account_id}}"
+                                            data-user_email="{{this.user_db.user_email}}"
+                                            data-user_name="{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}"
+                                            class="badge badge-center rounded-pill bg-primary p-3 cursor-pointer btn-show-reset">
+                                            <i class='bx bxs-key'></i>
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <span 
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#backDropModal_send-mail"
-                                        data-account_id="{{this.account_id}}"
-                                        data-user_email="{{this.user_db.user_email}}"
-                                        data-user_name="{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}"
-                                        class="badge badge-center rounded-pill bg-primary p-3 cursor-pointer btn-show-send-mail">
-                                            <i class='bx bxs-envelope' ></i>
+                                        <span data-bs-toggle="modal" data-bs-target="#backDropModal_send-mail"
+                                            data-account_id="{{this.account_id}}"
+                                            data-user_email="{{this.user_db.user_email}}"
+                                            data-user_name="{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}"
+                                            class="badge badge-center rounded-pill bg-primary p-3 cursor-pointer btn-show-send-mail">
+                                            <i class='bx bxs-envelope'></i>
                                         </span>
                                     </td>
                                     {{!-- <td>
@@ -132,22 +129,19 @@
                                                 <i class="bx bx-dots-vertical-rounded"></i>
                                             </button>
                                             <div class="dropdown-menu position-fixed" style="z-index: 1;">
-                                                <a  href="/account/change_role/{{this.account_id}}/1"
-                                                    data-account_id="{{this.account_id}}"
-                                                    data-role_id="1"
+                                                <a href="/account/change_role/{{this.account_id}}/1"
+                                                    data-account_id="{{this.account_id}}" data-role_id="1"
                                                     class="dropdown-item btn-show-details {{#if (equal this.role_id 1) }}active{{/if}}"><i
                                                         class="bx bx-user me-1"></i>Admin</a>
-                                                <a  href="/account/change_role/{{this.account_id}}/2"
-                                                    data-account_id="{{this.account_id}}"
-                                                    data-role_id="2"
+                                                <a href="/account/change_role/{{this.account_id}}/2"
+                                                    data-account_id="{{this.account_id}}" data-role_id="2"
                                                     class="dropdown-item btn-show-delete {{#if (equal this.role_id 2) }}active{{/if}}"><i
                                                         class="bx bx-group me-1"></i>Staff</a>
-                                                <a  href="/account/change_role/{{this.account_id}}/3"
-                                                    data-account_id="{{this.account_id}}"
-                                                    data-role_id="3"
+                                                <a href="/account/change_role/{{this.account_id}}/3"
+                                                    data-account_id="{{this.account_id}}" data-role_id="3"
                                                     class="dropdown-item btn-show-delete {{#if (equal this.role_id 3) }}active{{/if}}">
-                                                    <i class='bx bx-lock-alt me-1' ></i>Lock</a>
-                                                    {{!-- <i class="bx bx-trash me-1"></i> --}}
+                                                    <i class='bx bx-lock-alt me-1'></i>Lock</a>
+                                                {{!-- <i class="bx bx-trash me-1"></i> --}}
                                             </div>
                                         </div>
                                     </td>
@@ -157,6 +151,38 @@
                         </table>
                     </div>
                 </div>
+
+                <nav aria-label="Page navigation" style="margin-right: 23px">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item prev">
+                            <a class="page-link"
+                                href="/account/{{#if (equal (minus currentPage 1) 0)}}1{{else}}{{minus currentPage 1}}{{/if}}"><i
+                                    class="tf-icon bx bx-chevrons-left"></i></a>
+                        </li>
+                        {{#each totalPages}} {{!-- get parent scope because we are in the loop --}}
+                        <li class="page-item {{#if (equal ../currentPage this) }}active{{/if}}">
+                            <a class="page-link" href="/account/{{this}}">{{this}}</a>
+                        </li>
+                        {{!-- <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">2</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="javascript:void(0);">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">4</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">5</a>
+                        </li> --}}
+                        {{/each}}
+                        <li class="page-item next">
+                            <a class="page-link"
+                                href="/account/{{#if (moreOrEqualThan (sum currentPage 1) (getArrayLength totalPages) ) }}{{getArrayLength totalPages}}{{else}}{{sum currentPage 1}}{{/if}}"><i
+                                    class="tf-icon bx bx-chevrons-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
