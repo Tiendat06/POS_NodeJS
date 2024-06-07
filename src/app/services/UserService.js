@@ -20,7 +20,7 @@ class UserService{
         const totalCount = await User.countDocuments();
         const totalPages = Math.ceil(totalCount / perPage);
 
-        return User.find({})
+        return User.find({deleted: false})
         .skip((page - 1) * perPage)
         .limit(perPage)
         .then(result => {
@@ -194,6 +194,21 @@ class UserService{
         })
     }
 
+    async soft_delete_user(requestJson){
+        var user_id = requestJson.userId;
+        var user = await User.findOne({user_id: user_id});
+        return Promise.all([
+            User.updateOne({user_id: user_id}, {deleted: true, updateAt: Date.now()}),
+            Account.updateOne({account_id: user.account_id}, {deleted: true, updateAt: Date.now()})
+        ])
+        .then(result => {
+            return result;
+        })
+        .catch(err => {
+            return err;
+        });
+    }
+
     // [GET] /user/profile
     async profile(req){
         // var isError = false;
@@ -231,6 +246,7 @@ class UserService{
         var dob = formData.dob;
         var address = formData.address;
         var img = formData.oldImg;
+        var old_email = formData.old_email;
 
         if(req.file != undefined){
             img = await cloudinary.v2.uploader.upload(req.file.path, { folder: 'POS' })

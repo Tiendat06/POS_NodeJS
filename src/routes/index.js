@@ -4,14 +4,17 @@ const userRouter = require("./user");
 const errorRouter = require("./error");
 const logRouter = require("./log");
 const accountRouter = require("./account");
-
+const productRouter = require('./product');
+const customerRouter = require("./customer");
 
 function route(app){
     app.use("/", siteRouter);
     app.use("/user", userRouter);
     app.use("/account", accountRouter);
-    app.use("/news", newsRouter);
+    app.use("/customer", customerRouter);
+    app.use("/product", productRouter);
     app.use("/log", logRouter);
+    app.use("/news", newsRouter);
     app.use(errorRouter);
 
     // app.get("/", (req, res, next) => {

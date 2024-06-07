@@ -66,7 +66,7 @@ class UserMiddleWare{
         var dob = requestJson.dob;
         var address = requestJson.address;
         var old_mail = requestJson.old_mail;
-        console.log("Hole: ", requestJson);
+        // console.log("Hole: ", requestJson);
 
         if(old_mail != email && await userRepository.checkEmail(email)){
             return res.json(responseData.email);
@@ -121,12 +121,13 @@ class UserMiddleWare{
     }
 
     // [POST, AJAX] /user/profile/edit
-    edit_profile(req, res, next){
+    async edit_profile(req, res, next){
         var formData = req.body;
         var responseData = {
             'success': 'Edit Successfully',
             'fail': 'Edit failed',
-            'empty': 'Please fill in all fields'
+            'empty': 'Please fill in all fields',
+            'email': 'Email has been contained'
         }
 
         var firstName = formData.firstName;
@@ -137,6 +138,7 @@ class UserMiddleWare{
         var dob = formData.dob;
         var address = formData.address;
         var img = formData.oldImg;
+        var old_email = formData.old_email
 
         if(firstName == null || firstName == undefined
             || lastName == null || lastName == undefined
@@ -146,8 +148,11 @@ class UserMiddleWare{
             || dob == null || dob == undefined
             || address == null || address == undefined
             || img == null || img == undefined
+            || old_email == null || old_email == undefined
         ){
             res.json(responseData.empty);
+        } else if(await userRepository.checkEmail(email) && old_email != email){
+            res.json(responseData.email);
         } else{
             userController.edit_profile(req, res, next, formData, responseData);
         }

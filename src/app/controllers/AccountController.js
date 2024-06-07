@@ -40,7 +40,7 @@ class AccountController{
         })
     }
 
-    // [PUT] /account/reset_password
+    // [PUT, AJAX] /account/reset_password
     async reset_password(req, res, next, requestJson, responseData){
         return accountService.reset_password(requestJson)
         .then(result => {
@@ -55,7 +55,7 @@ class AccountController{
             return res.json(responseData.fail);
         })
     }
-    // [PUT] /account/send_mail
+    // [PUT, AJAX] /account/send_mail
     async send_mail(req, res, next, requestJson, responseData){
         var email = requestJson.email;
         req.session.user_email = email;

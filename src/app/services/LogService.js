@@ -16,13 +16,13 @@ class LogService{
             }
         })
         .then((form) => {
-            return User.findOne({'user_email': form.email});
+            return User.findOne({'user_email': form.email, deleted: false});
         })
         .then((user) => {
             return Account.findOne({'account_id': user.account_id, 'account_password': pwd});
         })
         .then((account) => {
-            console.log(account);
+            // console.log(account);
             if(account){
                 if(account.role_id != 3){
                     return true;

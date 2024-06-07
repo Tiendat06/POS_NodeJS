@@ -11,6 +11,8 @@ const Product = Schema({
     category_id: {type: Number, default: 0, maxLength: 10},
     product_image: {type: String, default: '', maxLength: 500},
     product_barcode: {type: String, default: '', maxLength: 500},
+    image_public_id: {type: String, default: '', maxLength: 500},
+    barcode_public_id: {type: String, default: '', maxLength: 500},
     createAt: {type: Date, default: Date.now()},
     updateAt: {type: Date, default: Date.now()},
     deleted: {type: Boolean, default: false},

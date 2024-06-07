@@ -24,6 +24,7 @@
   },
   "homepage": "https://github.com/Tiendat06/BookingMovieTicket_NodeJS#readme",
   "dependencies": {
+    "bwip-js": "^4.3.2",
     "cloudinary": "^2.2.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",

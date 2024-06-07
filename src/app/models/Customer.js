@@ -10,6 +10,7 @@ const Customer = new Schema({
     customer_address: {type: String, default: '', maxLength: 500},
     customer_dob: {type: Date, default: '', maxLength: 500},
     customer_gender: {type: String, default: '', maxLength: 500},
+    customer_point: {type: Number, default: 0, maxLength: 500},
     account_id: {type: String, default: '', maxLength: 500},
     createAt: {type: Date, default: Date.now()},
     updateAt: {type: Date, default: Date.now()},

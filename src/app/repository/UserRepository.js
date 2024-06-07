@@ -13,7 +13,7 @@ class UserRepository{
     }
 
     async checkEmail(email){
-        return User.findOne({user_email: email})
+        return User.findOne({user_email: email, deleted: false})
         .then(result => {
             if(result){
                 return true;

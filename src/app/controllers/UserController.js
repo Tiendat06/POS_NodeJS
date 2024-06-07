@@ -24,6 +24,7 @@ class UserController{
             }
         })
         .catch(err => {
+            console.log(err);
             res.render("error/error", {
                 error: err
             })
@@ -72,9 +73,10 @@ class UserController{
 
     // [DELETE, AJAX] /user/delete
     delete_user(req, res, next, requestJson, responseData){
-        userService.delete_user(requestJson)
+        userService.soft_delete_user(requestJson)
         .then(result => {
-            if(result[0].deletedCount > 0 && result[1].deletedCount > 0){
+            // [0].deletedCount > 0 && result[1].deletedCount > 0
+            if(result){
                 res.json(responseData.success);
             } else{
                 throw new Error(responseData.fail);

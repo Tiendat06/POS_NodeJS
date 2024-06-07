@@ -40,6 +40,10 @@ function templatesEngine(app){
                 const [year, month, day] = date.split('-');
                 const formattedDate = `${day}-${month}-${year}`;
                 return formattedDate;
+            },
+            converDateTime(dateTime){
+                const date = new Date(dateTime);
+                return date.toISOString().split('T')[0]; // YYYY-MM-DD
             }
         }
     }));

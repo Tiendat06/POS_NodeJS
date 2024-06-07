@@ -13,6 +13,11 @@ class AccountService{
 
         return Account.aggregate([
             {
+                $match: {
+                    deleted: false 
+                }
+            },
+            {
                 $lookup: {
                     from: 'role',
                     localField: 'role_id',

@@ -1,0 +1,398 @@
+<!-- Content -->
+
+<div class="container-xxl flex-grow-1 container-p-y">
+    <h4 class="fw-bold py-3 mb-4">
+        <span class="text-muted fw-light">Order Settings /</span> Manage Product
+    </h4>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills flex-column flex-md-row mb-3">
+                <li class="nav-item">
+                    <a class="nav-link" href="/customer">
+                    {{!-- <i class="bx bx-user me-1"></i> --}}
+                    <i class='bx bx-body me-1'></i>
+                        Manage Customer</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="javascript:void(0);"> 
+                        {{!-- <i class="bx bx-group me-1"> --}}
+                        <i class='bx bx-store me-1'></i>
+                        </i> Manage Product</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/report">
+                    {{!-- <i class="bx bxs-cog me-1"></i> --}}
+                    {{!-- <i class='bx bx-shopping-bag me-1'></i> --}}
+                    <i class='bx bx-pie-chart-alt-2 me-1'></i>
+                        Report And Statistic</a>
+                </li>
+
+            </ul>
+
+            <div class="card">
+                <div class="user-management d-flex flex-wrap justify-content-between align-items-center">
+                    <h5 class="card-header">Product Management</h5>
+                    <div class="btn__add-user p-4">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal_add-product"
+                            type="submit"><i class='bx bxl-product-hunt'></i> Add Product</button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Import Price</th>
+                                    <th>Retail Price</th>
+                                    <th>Category</th>
+                                    <th>Quantity</th>
+                                    <th>Date Created</th>
+                                    <th>Description</th>
+                                    <th>Barcode</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {{#each productList}}
+                                <tr>
+                                    <td>{{sum @index 1}}</td>
+                                    <td>
+                                        {{!-- <i class="fab fa-angular fa-lg text-danger me-3"></i> --}}
+                                        {{!-- <img style="width: 80px;" src="{{this.user_img}}" alt="" srcset=""> --}}
+                                        <ul
+                                            class="list-unstyled d-flex users-list m-0 avatar-group d-flex align-items-center">
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                style="margin-right: 5px;"
+                                                title="{{this.product_name}}">
+                                                <img src="{{this.product_image}}" style="object-fit:cover" alt="Avatar"
+                                                    class="rounded-circle" />
+                                            </li>
+                                            <strong>{{this.product_name}}</strong>
+                                        </ul>
+                                    </td>
+                                    <td>{{this.real_price}}</td>
+                                    <td>{{this.retail_price}}</td>
+                                    <td>{{this.category_db.category_name}}</td>
+                                    <td>{{this.quantity}}</td>
+                                    <td>{{convertDate (converDateTime this.createAt)}}</td>
+                                    <td>{{this.product_description}}</td>
+                                    <td>
+                                        <img width="80" height="40" src="{{this.product_barcode}}" alt="" srcset="">
+                                    </td>
+                                    {{!-- <td>
+                                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                title="Lilian Fuller">
+                                                <img src="/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                title="Sophia Wilkerson">
+                                                <img src="/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
+                                                title="Christina Parker">
+                                                <img src="/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
+                                            </li>
+                                        </ul>
+                                    </td> --}}
+                                    {{!-- <td><span class="badge bg-label-primary me-1">Active</span></td> --}}
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                data-bs-toggle="dropdown">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="z-index:99;">
+                                                <button data-bs-toggle="modal" data-bs-target="#backDropModal_edit-product"
+                                                    data-product_id="{{this.product_id}}"
+                                                    data-product_name="{{this.product_name}}"
+                                                    data-real_price="{{this.real_price}}"
+                                                    data-retail_price="{{this.retail_price}}"
+                                                    data-category_id="{{this.category_id}}"
+                                                    data-product_description="{{this.product_description}}" 
+                                                    data-product_image="{{this.product_image}}"
+                                                    data-image_public_id="{{this.image_public_id}}"
+                                                    data-quantity="{{this.quantity}}"
+                                                    class="dropdown-item btn-show-details"><i
+                                                        class="bx bx-edit-alt me-1"></i> Edit</button>
+                                                <button data-bs-toggle="modal"
+                                                    data-bs-target="#backDropModal_delete-product"
+                                                    data-product_id="{{this.product_id}}"
+                                                    data-product_name="{{this.product_name}}"
+                                                    class="dropdown-item btn-show-delete"><i
+                                                        class="bx bx-trash me-1"></i> Delete</button>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {{/each}}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <nav aria-label="Page navigation"  style="margin-right: 23px">
+                    <ul class="pagination justify-content-end">
+                        <li class="page-item prev">
+                            <a class="page-link" href="/product/{{#if (equal (minus currentPage 1) 0)}}1{{else}}{{minus currentPage 1}}{{/if}}"><i
+                                    class="tf-icon bx bx-chevrons-left"></i></a>
+                        </li>
+                        {{#each totalPages}}   {{!-- get parent scope because we are in the loop --}}
+                        <li class="page-item {{#if (equal ../currentPage this) }}active{{/if}}">
+                            <a class="page-link" href="/product/{{this}}">{{this}}</a>
+                        </li>
+                        {{!-- <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">2</a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="javascript:void(0);">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">4</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="javascript:void(0);">5</a>
+                        </li> --}}
+                        {{/each}}
+                        <li class="page-item next">
+                            <a class="page-link" href="/product/{{#if (moreOrEqualThan (sum currentPage 1) (getArrayLength totalPages) ) }}{{getArrayLength totalPages}}{{else}}{{sum currentPage 1}}{{/if}}"><i
+                                    class="tf-icon bx bx-chevrons-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal Backdrop -->
+
+
+<!-- Modal add -->
+<div class="modal fade" id="backDropModal_add-product" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Add Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="name_add" class="form-label">Product Name</label>
+                        <input type="text" name="name_add" id="name_add" class="form-control"
+                            placeholder="Enter product name" />
+                    </div>
+                    {{!-- <div class="col mb-3">
+                        <label for="lastNameBackdrop" class="form-label">Last Name</label>
+                        <input type="text" name="lastname_add" id="lastNameBackdrop" class="form-control"
+                            placeholder="Enter last name" />
+                    </div> --}}
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="import_price_add" class="form-label">Import Price</label>
+                        <input type="text" name="import_price_add" id="import_price_add" class="form-control"
+                            placeholder="Enter import price" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="retail_add" class="form-label">Retail Price</label>
+                        <input type="text" name="retail_add" id="retail_add" class="form-control"
+                            placeholder="Enter retail price" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="category_add" class="form-label">Category</label>
+                        <select id="category_add" class="select form-select" name="category_add">
+                            <option value="">Select category</option>
+                            {{#each categoryList}}
+                                <option value="{{this.category_id}}">{{this.category_name}}</option>
+                            {{!-- <option value="Female">Female</option> --}}
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="quantity_add" class="form-label">Quantity</label>
+                        <input type="text" name="quantity_add" id="quantity_add" class="form-control"
+                            placeholder="Enter quantity" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="img_add" class="form-label">Product Image</label>
+                        {{!-- <input type="text" name="address_name" id="addressBackdrop" class="form-control"
+                            placeholder="Enter address" /> --}}
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="img_add" name="img_add" accept="image/png, image/jpeg" />
+                            <label class="input-group-text" for="img_add">Upload</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="description_add" class="form-label">Description</label>
+                        {{!-- <input type="text" name="address_name" id="addressBackdrop" class="form-control"
+                            placeholder="Enter address" /> --}}
+                        <div class="input-group input-group-merge speech-to-text">
+                            <textarea id="description_add" name="description_add" class="form-control" placeholder="Say or text it" rows="2"></textarea>
+                            <span class="input-group-text">
+                            <i class="bx bx-microphone cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="add-product__status" role="alert"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_add" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal edit -->
+<div class="modal fade" id="backDropModal_edit-product" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Edit Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="product_id_edit" id="product_id_edit">
+                <input type="hidden" name="product_img_edit" id="product_img_edit">
+                <input type="hidden" name="public_id_edit" id="public_id_edit">
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="name_edit" class="form-label">Product Name</label>
+                        <input type="text" name="name_edit" id="name_edit" class="form-control"
+                            placeholder="Enter product name" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="import_price_edit" class="form-label">Import Price</label>
+                        <input type="text" name="import_price_edit" id="import_price_edit" class="form-control"
+                            placeholder="Enter import price" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="retail_edit" class="form-label">Retail Price</label>
+                        <input type="text" name="retail_edit" id="retail_edit" class="form-control"
+                            placeholder="Enter retail price" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="category_edit" class="form-label">Category</label>
+                        <select id="category_edit" class="select form-select" name="category_edit">
+                            <option value="">Select category</option>
+                            {{#each categoryList}}
+                                <option value="{{this.category_id}}">{{this.category_name}}</option>
+                            {{/each}}
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="quantity_edit" class="form-label">Quantity</label>
+                        <input type="text" name="quantity_edit" id="quantity_edit" class="form-control"
+                            placeholder="Enter quantity" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="img_edit" class="form-label">Product Image (Optional)</label>
+                        <div class="input-group">
+                            <input type="file" class="form-control" id="img_edit" name="img_edit" accept="image/png, image/jpeg" />
+                            <label class="input-group-text" for="img_edit">Upload</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="description_edit" class="form-label">Description</label>
+                        {{!-- <input type="text" name="address_name" id="addressBackdrop" class="form-control"
+                            placeholder="Enter address" /> --}}
+                        <div class="input-group input-group-merge speech-to-text">
+                            <textarea id="description_edit" name="description_edit" class="form-control" placeholder="Say or text it" rows="2"></textarea>
+                            <span class="input-group-text">
+                            <i class="bx bx-microphone cursor-pointer text-to-speech-toggle"></i>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="edit-product__status" role="alert"></div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_edit" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal delete -->
+<div class="modal fade" id="backDropModal_delete-product" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Delete Product</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="product_id_delete" id="product_id_delete">
+                <p class="product-delete__para mb-0"></p>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="delete-product__status" role="alert">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_delete" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    jsInProduct();
+</script>

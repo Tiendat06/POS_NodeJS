@@ -1,5 +1,6 @@
 
 function jsInProfile() {
+    // edit, ajax
     $(document).ready(() => {
         $("#btn_save").click(function () {
             // var profile_id = $("#profile_id").val();
@@ -11,6 +12,7 @@ function jsInProfile() {
             var phone = $("#phoneNumber").val();
             var dob = $("#dob").val();
             var address = $("#address").val();
+            var old_email = $("#old_email").val();
             var img = document.getElementById("upload");
             var oldImg = document.getElementById("uploadedAvatar").src;
 
@@ -23,6 +25,7 @@ function jsInProfile() {
             formData.append('phone', phone);
             formData.append('dob', dob);
             formData.append('address', address);
+            formData.append('old_email', old_email);
             formData.append('img', img.files[0]);
             formData.append('oldImg', oldImg);
 
@@ -311,4 +314,166 @@ function jsInAccount() {
         })
     })
 
+}
+
+function jsInProduct(){
+    // add
+    $(document).ready(() => {
+        $("#btn_add").click(function(){
+            $("#overlay").removeClass('d-none');
+            var name = $("#name_add").val();
+            var import_price = $("#import_price_add").val();
+            var retail_price = $("#retail_add").val();
+            var category = $("#category_add").val();
+            var quantity = $("#quantity_add").val();
+            var description = $("#description_add").val();
+            var img = document.getElementById("img_add");
+
+            var formData = new FormData();
+            formData.append('name', name);
+            formData.append('import_price', import_price);
+            formData.append('retail_price', retail_price);
+            formData.append('category', category);
+            formData.append('quantity', quantity);
+            formData.append('description', description);
+            formData.append('img', img.files[0]);
+
+            $.ajax({
+                url: '/product/add',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    $("#add-product__status").removeClass('d-none');
+                    $("#add-product__status").addClass('alert-primary');
+                    $("#add-product__status").html(response);
+                },
+                error: function(error){
+                    $("#add-product__status").removeClass('d-none');
+                    $("#add-product__status").addClass('alert-danger');
+                    $("#add-product__status").html(error);
+                },
+                complete: function(){
+                    $("#overlay").addClass('d-none');
+                }
+            })
+        })
+    });
+
+    // edit
+    $(document).ready(() => {
+        $(".btn-show-details").click(function() {
+            var product_id = $(this).data('product_id');
+            var product_name = $(this).data('product_name');
+            var real_price = $(this).data('real_price');
+            var retail_price = $(this).data('retail_price');
+            var category_id = $(this).data('category_id');
+            var product_description = $(this).data('product_description');
+            var product_image = $(this).data('product_image');
+            var public_id = $(this).data('image_public_id');
+            var quantity = $(this).data('quantity')
+
+            $("#product_id_edit").val(product_id);
+            $("#product_img_edit").val(product_image);
+            $("#public_id_edit").val(public_id);
+            $("#name_edit").val(product_name);
+            $("#import_price_edit").val(real_price);
+            $("#retail_edit").val(retail_price);
+            $("#category_edit").val(category_id);
+            $("#quantity_edit").val(quantity);
+            $("#description_edit").val(product_description);
+        })
+    });
+
+    // edit, ajax
+    $(document).ready(() => {
+        $("#btn_edit").click(function() {
+            $('#overlay').removeClass('d-none');
+            var id = $("#product_id_edit").val();
+            var img = $("#product_img_edit").val();
+            var public_id_edit = $("#public_id_edit").val();
+            var name = $("#name_edit").val();
+            var import_price = $("#import_price_edit").val();
+            var retail_price = $("#retail_edit").val();
+            var category = $("#category_edit").val();
+            var quantity = $("#quantity_edit").val();
+            var description = $("#description_edit").val();
+            var new_img = document.getElementById('img_edit');
+
+            var formData = new FormData();
+            formData.append('id', id);
+            formData.append('old_img', img);
+            formData.append('public_id', public_id_edit);
+            formData.append('name', name);
+            formData.append('import_price', import_price);
+            formData.append('retail_price', retail_price);
+            formData.append('category', category);
+            formData.append('quantity', quantity);
+            formData.append('description', description);
+            formData.append('img', new_img.files[0]);
+
+            $.ajax({
+                url: '/product/edit?_method=PUT',
+                type: 'POST',
+                data: formData,
+                contentType: false,
+                processData: false,
+                success: function(response){
+                    $("#edit-product__status").removeClass('d-none');
+                    $("#edit-product__status").addClass('alert-primary');
+                    $("#edit-product__status").html(response);
+                },
+                error: function(error){
+                    $("#edit-product__status").removeClass('d-none');
+                    $("#edit-product__status").addClass('alert-danger');
+                    $("#edit-product__status").html(error);
+                },
+                complete: function(){
+                    $('#overlay').addClass('d-none');
+                }
+            })
+        })
+    });
+
+    // delete
+    $(document).ready(() => {
+        $('.btn-show-delete').click(function() {
+            var product_id = $(this).data('product_id');
+            var product_name = $(this).data('product_name');
+
+            $('#product_id_delete').val(product_id);
+            $('.product-delete__para').html(`Are you sure to delete '${product_name}' ?`);
+        })
+    });
+
+    // delete, ajax
+    $(document).ready(() => {
+        $('#btn_delete').click(function(){
+            var product_id = $('#product_id_delete').val();
+
+            $.ajax({
+                url: '/product/delete?_method=DELETE',
+                type: 'POST',
+                data: JSON.stringify({
+                    product_id: product_id,
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $("#delete-product__status").removeClass('d-none');
+                    $("#delete-product__status").addClass('alert-primary');
+                    $("#delete-product__status").html(response);
+                },
+                error: function(error){
+                    $("#delete-product__status").removeClass('d-none');
+                    $("#delete-product__status").addClass('alert-danger');
+                    $("#delete-product__status").html(error);
+                },
+                complete: function(){
+
+                }
+            })
+
+        })
+    })
 }
