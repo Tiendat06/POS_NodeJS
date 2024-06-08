@@ -73,3 +73,12 @@
 .table-responsive::-webkit-scrollbar{
     display: none;
 }
+
+.card-items:hover{
+    transform: translateY(-8px);
+    transition: linear 0.2s;
+}
+
+.home__item-list::-webkit-scrollbar{
+    display: none;
+}
