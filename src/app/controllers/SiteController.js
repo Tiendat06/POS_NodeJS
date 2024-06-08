@@ -5,7 +5,7 @@ class SiteController {
 
     // [GET] /
     index(req, res, next) {
-        productService.index(req, 9)
+        productService.index(req, 6)
         .then(result => {
             const pagesArray = Array.from({ length: result.totalPages }, (_, i) => i + 1);
 
