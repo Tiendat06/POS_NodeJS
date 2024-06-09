@@ -45,6 +45,32 @@ class ProductRepository{
         })
     }
 
+    async findProductByProductId(product_id){
+        return Product.findOne({product_id: product_id})
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
+
+    async updateProductQuantityByProductId(product_id, quantity){
+        return Product.updateOne({product_id: product_id}, {
+            quantity: quantity
+        })
+        .then(result => {
+            if(result.modifiedCount > 0){
+                return true;
+            }
+            return false;
+        })
+        .catch(error => {
+            console.log(error);
+            return false;
+        })
+    }
+
 }
 
 module.exports = new ProductRepository;

@@ -7,6 +7,7 @@ const bwipjs = require("bwip-js");
 const path = require('path');
 
 class ProductService {
+    
     async index(req, perPage = 10) {
         const page = parseInt(req.params["page"]) || 1;
         // const perPage = 10;

@@ -25,6 +25,16 @@ class UserRepository{
             return false;
         })
     }
+
+    async findUserByEmail(email){
+        return User.findOne({user_email: email})
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
 }
 
 module.exports = new UserRepository;

@@ -503,7 +503,7 @@
             </div>
             {{#each productList}}
             <div class="col-md-6 col-lg-4 mb-3 card-items">
-                <div class="card-outer cursor-pointer">
+                <div class="card-outer cursor-pointer" data-product_id="{{this.product_id}}" data-bs-toggle="modal" data-bs-target="#backDropModal_choose-quantity">
                     <div class="card h-100 text-center">
                         <img class="card-img-top" height="200" style="object-fit: cover;" src="{{this.product_image}}"
                             alt="Card image cap" />
@@ -552,18 +552,28 @@
                     <input type="text" class="form-control" placeholder="Phone number" aria-label="Phone number"
                         aria-describedby="button-addon2" />
                     <button class="btn btn-primary" type="button" id="button-addon2">FIND</button>
+
+                    <div class="alert alert-primary w-100 mt-3 d- mb-0 text-center d-none" role="alert"
+                        style="border-radius: 10px;">This is a primary alert — check it out!</div>
+
                 </div>
 
-                <div class="demo-inline-spacing home__item-list" id="" style="height: 488px; overflow:scroll;">
-                    <div class="list-group list-group-flush" style="margin: 0!important;">
+                <div class="demo-inline-spacing home__item-list" id="" style="height: 490px; overflow:scroll;">
+                    <div class="list-group list-group-flush" id="payment-info__order-list" style="margin: 0!important;">
+                        {{#each orderList}}
                         <a style="border-bottom: 1px solid #ccc;" href="javascript:void(0);"
                             class="list-group-item d-flex justify-content-between list-group-item-action">
-                            <p class="mb-0">1</p>
-                            <p class="mb-0">T-Shirt</p>
-                            <p class="mb-0">x1</p>
-                            <p class="mb-0">40.0$</p>
-                            <p class="mb-0"><i class='bx bx-x-circle'></i></p>
+                            <input type="hidden" name="order_list_id" id="order_list_id">
+                            <p class="mb-0">{{sum @index 1}}</p>
+                            <p class="mb-0">{{this.product_db.product_name}}</p>
+                            <p class="mb-0">x{{this.quantity}}</p>
+                            <p class="mb-0">{{this.total_price}}$</p>
+                            <p data-bs-toggle="modal" data-bs-target="#backDropModal_delete-order"
+                            data-order_list_id="{{this.order_list_id}}"
+                            data-order_no="{{sum @index 1}}"
+                            class="mb-0 home-delete_order"><i class='bx bx-x-circle'></i></p>
                         </a>
+                        {{/each}}
                     </div>
                 </div>
             </div>
@@ -586,21 +596,84 @@
                 <div class="mb-3 payment-method d-flex justify-content-between align-items-center">
                     <p class="payment-method__description mb-0">Payment method:</p>
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio1" checked
-                            autocomplete="off" />
-                        <label class="btn btn-outline-primary" for="btnradio1"><i class='bx bxl-paypal' ></i> Paypal</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="paypal" autocomplete="off" />
+                        <label class="btn btn-outline-primary" for="paypal"><i class='bx bxl-paypal'></i>
+                            Paypal</label>
                         {{!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" />
                         <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label> --}}
-                        <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off" />
-                        <label class="btn btn-outline-primary" for="btnradio3"><i class='bx bx-money'></i> Cash</label>
+                        <input type="radio" class="btn-check" name="btnradio" id="cash" autocomplete="off" checked />
+                        <label class="btn btn-outline-primary" for="cash"><i class='bx bx-money'></i> Cash</label>
                     </div>
                 </div>
 
                 <div class="payment-btn d-flex flex-wrap justify-content-between mt-5">
-                    <button type="submit" class="payment-button col-lg-5 col-md-5 col-sm-5 btn btn-danger">Cancel</button>
+                    <button type="submit"
+                        class="payment-button col-lg-5 col-md-5 col-sm-5 btn btn-danger">Cancel</button>
                     <button type="submit" class="payment-button col-lg-5 col-md-5 col-sm-5 btn btn-success">Pay</button>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+
+<!-- Modal choose quantity to order -->
+<div class="modal fade" id="backDropModal_choose-quantity" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" action="/home/order" method="POST" onsubmit="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Choose Quantity</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="product_id_choose-quan" id="product_id_choose-quan">
+                <div class="col mb-3">
+                    <label for="chooseQuantityBackdrop" class="form-label">Quantity</label>
+                    <input type="text" name="chooseQuantityBackdrop" id="chooseQuantityBackdrop" class="form-control" required
+                        placeholder="Quantity" />
+                </div>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="choose-quan__status" role="alert">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" id="btn_choose-quan" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal delete -->
+<div class="modal fade" id="backDropModal_delete-order" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" action="/home/delete_order" method="POST" onsubmit="">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Delete Order</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" name="order_list_id_delete" id="order_list_id_delete">
+                <input type="hidden" name="order_No_delete" id="order_No_delete">
+                <p class="order-delete__para mb-0"></p>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="delete-user__status" role="alert">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="submit" id="btn_delete" class="btn btn-primary">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    jsInHome();
+</script>

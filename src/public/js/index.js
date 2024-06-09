@@ -207,7 +207,7 @@ function jsInUser() {
     })
 }
 
-function jsInHome() {
+function jsInEveryPage() {
     fetch('/user/profile/info')
         .then(response => {
             return response.json();
@@ -476,4 +476,53 @@ function jsInProduct(){
 
         })
     })
+}
+
+function jsInHome(){
+
+    // choose quan
+    $(document).ready(() => {
+        $('.card-outer').click(function() {
+            var product_id = $(this).data('product_id');
+            $('#product_id_choose-quan').val(product_id);
+        })
+    });
+
+    $(document).ready(() => {
+        $('.home-delete_order').click(function() {
+            var order_details_id = $(this).data('order_list_id');
+            var order_No = $(this).data('order_no');
+
+            $('#order_list_id_delete').val(order_details_id);
+            $('#order_No_delete').val(order_No);
+            $('.order-delete__para').html(`Are you sure to delete order ${order_No} ?`);
+        })
+    });
+
+    // order after choose quan
+    // $(document).ready(() => {
+    //     $("#btn_choose-quan").click(function() {
+    //         var quantity = $('#chooseQuantityBackdrop').val();
+    //         var product_id = $('#product_id_choose-quan').val();
+
+    //         $.ajax({
+    //             url: '/home/order',
+    //             type: 'POST',
+    //             data: JSON.stringify({
+    //                 product_id: product_id,
+    //                 quantity: quantity
+    //             }),
+    //             contentType: 'application/json',
+    //             success: function(response){
+    //                 $('#payment-info__order-list').html(response);
+    //             },
+    //             error: function(error){
+
+    //             },
+    //             complete: function(){
+
+    //             }
+    //         })
+    //     })
+    // })
 }
