@@ -85,7 +85,7 @@ class OrderService{
         req.session.order_id = order_id;
     }
 
-    async home_delete_order(formData){
+    async home_delete_order(req, formData){
         var order_list_id = formData['order_list_id_delete'];
         var order_details = await orderDetailsRepository.getOrderDetailsByOrderDetailsId(order_list_id);
         var order_id = order_details.order_id;
@@ -111,6 +111,23 @@ class OrderService{
             console.log(error);
             return false;
         })
+    }
+
+    async calculate_total_bill(req){
+        var order_id = req.session.order_id;
+        if(order_id){
+            return orderRepository.calculateTotalBillByOrderId(order_id)
+            .then(result => {
+                return result;
+            })
+            .catch(error => {
+                return error;
+            })
+        } else {
+            return [{
+                    totalAmount: 0
+                }];
+        }
     }
 }
 

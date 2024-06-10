@@ -503,7 +503,8 @@
             </div>
             {{#each productList}}
             <div class="col-md-6 col-lg-4 mb-3 card-items">
-                <div class="card-outer cursor-pointer" data-product_id="{{this.product_id}}" data-bs-toggle="modal" data-bs-target="#backDropModal_choose-quantity">
+                <div class="card-outer cursor-pointer" data-product_id="{{this.product_id}}" data-bs-toggle="modal"
+                    data-bs-target="#backDropModal_choose-quantity">
                     <div class="card h-100 text-center">
                         <img class="card-img-top" height="200" style="object-fit: cover;" src="{{this.product_image}}"
                             alt="Card image cap" />
@@ -541,7 +542,8 @@
         <div class="col-lg-5 col-md-6 flex-wrap" style="border-radius: 10px">
             <div class="payment-info">
                 <div class="btn_add_customer mb-3">
-                    <button class="btn btn-primary" type="button">
+                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal_add-customer"
+                        type="button">
                         <i class='bx bx-user-plus'></i>
                         Add Customer</button>
                 </div>
@@ -549,16 +551,22 @@
                 <div class="input-group pb-3" style="border-bottom: 1px solid #ccc;">
                     <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
 
-                    <input type="text" class="form-control" placeholder="Phone number" aria-label="Phone number"
-                        aria-describedby="button-addon2" />
-                    <button class="btn btn-primary" type="button" id="button-addon2">FIND</button>
+                    <input type="text" class="form-control" id="customer-phone__inp" name="customer-phone__inp"
+                        placeholder="Phone number" aria-label="Phone number" aria-describedby="button-addon2" />
+                    <button class="btn btn-primary" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px" type="button" id="button__find-customer">FIND</button>
 
-                    <div class="alert alert-primary w-100 mt-3 d- mb-0 text-center d-none" role="alert"
+                    {{!-- active --}}
+                    <div id="customer-info-home" class="w-100">
+
+                    </div>
+
+
+                    <div class="alert alert-primary w-100 mt-3 mb-0 text-center d-none" role="alert"
                         style="border-radius: 10px;">This is a primary alert — check it out!</div>
 
                 </div>
 
-                <div class="demo-inline-spacing home__item-list" id="" style="height: 490px; overflow:scroll;">
+                <div class="demo-inline-spacing home__item-list" id="" style="height: 450px; overflow:scroll;">
                     <div class="list-group list-group-flush" id="payment-info__order-list" style="margin: 0!important;">
                         {{#each orderList}}
                         <a style="border-bottom: 1px solid #ccc;" href="javascript:void(0);"
@@ -569,9 +577,8 @@
                             <p class="mb-0">x{{this.quantity}}</p>
                             <p class="mb-0">{{this.total_price}}$</p>
                             <p data-bs-toggle="modal" data-bs-target="#backDropModal_delete-order"
-                            data-order_list_id="{{this.order_list_id}}"
-                            data-order_no="{{sum @index 1}}"
-                            class="mb-0 home-delete_order"><i class='bx bx-x-circle'></i></p>
+                                data-order_list_id="{{this.order_list_id}}" data-order_no="{{sum @index 1}}"
+                                class="mb-0 home-delete_order"><i class='bx bx-x-circle'></i></p>
                         </a>
                         {{/each}}
                     </div>
@@ -581,17 +588,20 @@
             <div class="payment-transaction">
                 <div class="mb-3 total-bill d-flex justify-content-between align-items-center">
                     <p class="total-bill__description mb-0">Total Bill:</p>
-                    <p class="total-bill__price mb-0">40.0$</p>
+                    <p class="total-bill__price mb-0">{{totalBill}} $</p>
                 </div>
                 <div class="mb-3 customer-give d-flex justify-content-between align-items-center">
                     <p class="customer-given__description mb-0 col-lg-6 col-md-6 col-sm-6">Customer Given:</p>
-                    <div class="customer-given__inp col-lg-2 col-md-2 col-sm-2">
-                        <input type="text" name="" class="form-control text-center" id="">
+                    <div class="customer-given__inp-block col-lg-2 col-md-2 col-sm-2">
+                        <input type="hidden" name="customer-given__total-bill" value="{{totalBill}}"
+                            id="customer-given__total-bill">
+                        <input type="text" name="" class="form-control text-center" id="customer-given__inp">
                     </div>
                 </div>
                 <div class="mb-3 given-change d-flex justify-content-between align-items-center">
+                    <input type="hidden" name="given-change__inp" id="given-change__inp">
                     <p class="given-change__description mb-0">Given change:</p>
-                    <p class="given-change__price mb-0">0.0$</p>
+                    <p class="given-change__price mb-0">0 $</p>
                 </div>
                 <div class="mb-3 payment-method d-flex justify-content-between align-items-center">
                     <p class="payment-method__description mb-0">Payment method:</p>
@@ -629,8 +639,8 @@
                 <input type="hidden" name="product_id_choose-quan" id="product_id_choose-quan">
                 <div class="col mb-3">
                     <label for="chooseQuantityBackdrop" class="form-label">Quantity</label>
-                    <input type="text" name="chooseQuantityBackdrop" id="chooseQuantityBackdrop" class="form-control" required
-                        placeholder="Quantity" />
+                    <input type="text" name="chooseQuantityBackdrop" id="chooseQuantityBackdrop" class="form-control"
+                        required placeholder="Quantity" />
                 </div>
             </div>
 
@@ -669,6 +679,85 @@
                     Close
                 </button>
                 <button type="submit" id="btn_delete" class="btn btn-primary">Delete</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal add -->
+<div class="modal fade" id="backDropModal_add-customer" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Add Customer</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-2">
+                    <div class="col mb-3">
+                        <label for="firstNameBackdrop" class="form-label">First Name</label>
+                        <input type="text" name="firstname_add" id="firstNameBackdrop" class="form-control"
+                            placeholder="Enter first name" />
+                    </div>
+                    <div class="col mb-3">
+                        <label for="lastNameBackdrop" class="form-label">Last Name</label>
+                        <input type="text" name="lastname_add" id="lastNameBackdrop" class="form-control"
+                            placeholder="Enter last name" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="phoneBackdrop" class="form-label">Phone number</label>
+                        <input type="text" name="phone_add" id="phoneBackdrop" class="form-control"
+                            placeholder="Enter phone number" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="emailBackdrop" class="form-label">Email</label>
+                        <input type="email" name="email_add" id="emailBackdrop" class="form-control"
+                            placeholder="Enter email" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="genderBackdrop" class="form-label">Gender</label>
+                        <select id="genderBackdrop" class="select form-select" name="gender_add">
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="dobBackdrop" class="form-label">Birthday</label>
+                        <input type="date" name="dob_add" id="dobBackdrop" class="form-control"
+                            placeholder="DD / MM / YY" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="addressBackdrop" class="form-label">Address</label>
+                        <input type="text" name="address_name" id="addressBackdrop" class="form-control"
+                            placeholder="Enter address" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="add-customer__status" role="alert">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_add-customer" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>

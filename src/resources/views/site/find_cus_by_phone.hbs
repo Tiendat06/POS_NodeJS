@@ -1,0 +1,32 @@
+{{#if customerIsExist}}
+<div class="card accordion-item w-100 mt-3">
+    <h2 class="accordion-header" id="headingTwo">
+        <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+            data-bs-target="#accordionTwo" aria-expanded="false" aria-controls="accordionTwo">
+            Full name: {{customer_info.customer_first_name}} {{customer_info.customer_last_name}}
+        </button>
+    </h2>
+    <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+            {{!-- <div class="accordin-body__left col-lg-6 col-md-6"> --}}
+            <input type="hidden" name="" id="customer-phone-ajax" value="{{customer_info.customer_phone_number}}">
+                <p>Email: {{customer_info.customer_email}}</p>
+                <p>Birthday: {{convertDate customer_info.customer_dob}}</p>
+            {{!-- </div> --}}
+            {{!-- <div class="accordin-body__right col-lg-6 col-md-6"> --}}
+                <p>Gender: {{customer_info.customer_gender}}</p>
+                <p class="mb-0">Address: {{customer_info.customer_address}}</p>
+
+                <div class="button d-flex justify-content-end mt-2">
+                    <button type="button" id="accumulate-customer-btn" class="btn btn-primary">Accumulate</button>
+
+                </div>
+            {{!-- </div> --}}
+        </div>
+    </div>
+</div>
+{{else}}
+<div class="alert alert-primary w-100 mt-3 mb-0 text-center" role="alert" style="border-radius: 10px;">{{errorInfo}}
+</div>
+{{/if}}

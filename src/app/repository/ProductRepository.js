@@ -6,10 +6,10 @@ const path = require('path');
 class ProductRepository{
 
     async AUTO_PRO_ID(){
-        const lastUser = await Product.findOne().sort({ product_id: -1 }).exec();
+        const lastProduct = await Product.findOne().sort({ product_id: -1 }).exec();
         let newIdNumber = 1;
-        if (lastUser) {
-            const lastIdNumber = parseInt(lastUser.product_id.replace('PRO', ''), 10);
+        if (lastProduct) {
+            const lastIdNumber = parseInt(lastProduct.product_id.replace('PRO', ''), 10);
             newIdNumber = lastIdNumber + 1;
         }
         return `PRO${newIdNumber.toString().padStart(7, '0')}`;

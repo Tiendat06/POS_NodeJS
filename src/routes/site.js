@@ -12,6 +12,15 @@ router.post('/home/order', siteMiddleWare.home_order);
 // [POST] /home/delete_order
 router.post('/home/delete_order', siteMiddleWare.home_delete_order);
 
+// [POST] /home/add_customer
+router.post('/home/add_customer', siteMiddleWare.add_customer);
+
+// [POST] /home/find_customer_by_phone
+router.post('/home/find_customer_by_phone', siteMiddleWare.find_customer_by_phone);
+
+// [POST] /home/accumulate_customer_order
+router.post('/home/accumulate_customer_order', siteController.accumulate_customer_order);
+
 // [GET] /:page
 router.get("/:page", siteMiddleWare.index);
 

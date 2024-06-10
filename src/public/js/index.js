@@ -488,6 +488,7 @@ function jsInHome(){
         })
     });
 
+    // delete oreder
     $(document).ready(() => {
         $('.home-delete_order').click(function() {
             var order_details_id = $(this).data('order_list_id');
@@ -496,6 +497,92 @@ function jsInHome(){
             $('#order_list_id_delete').val(order_details_id);
             $('#order_No_delete').val(order_No);
             $('.order-delete__para').html(`Are you sure to delete order ${order_No} ?`);
+        })
+    });
+
+    // on input customer given
+    $(document).ready(() => {
+        $('#customer-given__inp').on('input', function() {
+            var totalBill = $('#customer-given__total-bill').val();
+            var customer_given = $('#customer-given__inp').val();
+            var given_change = 0;
+            console.log(customer_given);
+            if(customer_given !== undefined && customer_given !== ''){
+                given_change = parseFloat(customer_given) - parseFloat(totalBill);
+            }
+            $('#given-change__inp').val(given_change);
+            $('.given-change__price').html(`${given_change} $`);
+        })
+    });
+
+    // add customer
+    $(document).ready(() => {
+        $('#btn_add-customer').click(function() {
+            var firstname = $('#firstNameBackdrop').val();
+            var lastname = $('#lastNameBackdrop').val();
+            var phone = $('#phoneBackdrop').val();
+            var email = $('#emailBackdrop').val();
+            var gender = $('#genderBackdrop').val();
+            var dob = $('#dobBackdrop').val();
+            var address = $('#addressBackdrop').val();
+    
+            $.ajax({
+                url: '/home/add_customer',
+                type: 'POST',
+                data: JSON.stringify({
+                    firstname: firstname,
+                    lastname: lastname,
+                    phone: phone,
+                    email: email,
+                    gender: gender,
+                    dob: dob,
+                    address: address,
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $("#add-customer__status").removeClass('d-none');
+                    $("#add-customer__status").addClass('alert-primary');
+                    $("#add-customer__status").html(response);            },
+                error: function(error){
+                    $("#add-customer__status").removeClass('d-none');
+                    $("#add-customer__status").addClass('alert-danger');
+                    $("#add-customer__status").html(error);   
+                },
+                complete: function(){
+    
+                }
+            })
+        })
+    });
+    
+    // find customer by phone
+    $(document).ready(() => {
+        $('#button__find-customer').click(function() {
+            var customer_phone_number = $('#customer-phone__inp').val();
+
+            $.ajax({
+                url: '/home/find_customer_by_phone',
+                type: 'POST',
+                data: JSON.stringify({
+                    customer_phone: customer_phone_number
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    // console.log(response);
+                    // $('#customer-info-home').removeClass('d-none');
+                    $('#customer-info-home').html(response);
+                },
+                error: function(error){
+                    // $('#customer-info-home').removeClass('d-none');
+                    console.log(error);
+                    console.log('error');
+                    $('#customer-info-home').html(error);
+                },
+                complete: function(){
+                    ajaxCompleteInHome()
+
+                }
+            })
         })
     });
 
@@ -525,4 +612,30 @@ function jsInHome(){
     //         })
     //     })
     // })
+}
+
+function ajaxCompleteInHome(){
+    $(document).ready(() => {
+        $('#accumulate-customer-btn').click(function() {
+            var customer_phone_number = $('#customer-phone-ajax').val();
+            // console.log(customer_phone_number)
+            $.ajax({
+                url: '/home/accumulate_customer_order',
+                type: 'POST',
+                data: JSON.stringify({
+                    customer_phone: customer_phone_number
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    
+                },
+                error: function(error){
+
+                },
+                complete: function(){
+
+                }
+            })
+        })
+    })
 }

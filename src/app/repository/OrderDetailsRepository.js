@@ -3,10 +3,10 @@ const OrderDetails = require("../models/OrderDetails");
 class OrderDetailsRepository{
 
     async AUTO_ODT_ID(){
-        const lastUser = await OrderDetails.findOne().sort({ order_list_id: -1 }).exec();
+        const lastOrderDetail = await OrderDetails.findOne().sort({ order_list_id: -1 }).exec();
         let newIdNumber = 1;
-        if (lastUser) {
-            const lastIdNumber = parseInt(lastUser.order_list_id.replace('ODT', ''), 10);
+        if (lastOrderDetail) {
+            const lastIdNumber = parseInt(lastOrderDetail.order_list_id.replace('ODT', ''), 10);
             newIdNumber = lastIdNumber + 1;
         }
         return `ODT${newIdNumber.toString().padStart(7, '0')}`;
