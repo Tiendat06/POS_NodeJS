@@ -97,6 +97,23 @@ class OrderRepository {
             return error;
         })
     }
+
+    async findOrderByOrderId(order_id){
+        return Order.findOne({order_id: order_id})
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
+
+    async updateOrderWhilePaySuccess(order_id, customer_id){
+        return Order.updateOne({order_id: order_id}, {
+            customer_id: customer_id,
+            date_created: Date.now(),
+        })
+    }
 }
 
 module.exports = new OrderRepository;

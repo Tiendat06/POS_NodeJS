@@ -506,7 +506,7 @@ function jsInHome(){
             var totalBill = $('#customer-given__total-bill').val();
             var customer_given = $('#customer-given__inp').val();
             var given_change = 0;
-            console.log(customer_given);
+            // console.log(customer_given);
             if(customer_given !== undefined && customer_given !== ''){
                 given_change = parseFloat(customer_given) - parseFloat(totalBill);
             }
@@ -586,6 +586,77 @@ function jsInHome(){
         })
     });
 
+    // fill payment info
+    $(document).ready(() => {
+        $('#btn_payment').click(function(){
+            var payemnt_method = $('[name="btnradio"]:checked').val();
+            var totalBill = $('#customer-given__total-bill').val();
+            var customer_given = $('#customer-given__inp').val();
+            var given_change = 0;
+
+            if(customer_given !== undefined && customer_given !== ''){
+                given_change = parseFloat(customer_given) - parseFloat(totalBill);
+            } else{
+                customer_given = 0;
+            }
+            $('.backdrop__total-bill').html(`Total bill: ${totalBill} $`);
+            $('.backdrop__customer-given').html(`Customer given: ${customer_given} $`);
+            $('.backdrop__given-change').html(`Given change: ${given_change} $`);
+            $('.backdrop__payment-method').html(`Payment method: ${payemnt_method}`);
+            // console.log(payemnt_method);
+        })
+    });
+
+    $(document).ready(() => {
+        $('#btn_save-pay').click(function(){
+            var payemnt_method = $('[name="btnradio"]:checked').val();
+            var customer_phone_number = $('#customer-phone__inp').val();
+            var totalBill = $('#customer-given__total-bill').val();
+            var customer_given = $('#customer-given__inp').val();
+            if(customer_phone_number == undefined || customer_phone_number == ''){
+                customer_phone_number = '';
+            }
+            if(customer_given == undefined || customer_given == '' || parseFloat(customer_given) < parseFloat(totalBill)){
+                $('#toast').removeClass('d-none');
+                $('#toast').addClass('bg-danger');
+                setTimeout(function(){
+                    $('#toast').addClass('d-none');
+                    $('#toast').removeClass('bg-danger');
+                }, 5000);
+            }else{
+                var given_change = parseFloat(customer_given) - parseFloat(totalBill);
+                $.ajax({
+                    url: '/home/home_payment',
+                    type: 'POST',
+                    data: JSON.stringify({
+                        customer_phone_number: customer_phone_number,
+                        totalBill: totalBill,
+                        given_change: given_change,
+                        customer_given: customer_given,
+                        payemnt_method: payemnt_method
+                    }),
+                    contentType: 'application/json',
+                    success: function(response){
+                        $("#pay-order__status").removeClass('d-none');
+                        $("#pay-order__status").addClass('alert-primary');
+                        $("#pay-order__status").html(response);
+                        setTimeout(function(){
+                            location.reload();
+                        }, 5000);
+                    },
+                    error: function(error){
+                        $("#pay-order__status").removeClass('d-none');
+                        $("#pay-order__status").removeClass('alert-danger');
+                        $("#pay-order__status").html(error);
+                    },
+                    complete: function(){
+
+                    }
+                })
+            }
+        })
+    })
+
     // order after choose quan
     // $(document).ready(() => {
     //     $("#btn_choose-quan").click(function() {
@@ -616,26 +687,29 @@ function jsInHome(){
 
 function ajaxCompleteInHome(){
     $(document).ready(() => {
-        $('#accumulate-customer-btn').click(function() {
-            var customer_phone_number = $('#customer-phone-ajax').val();
-            // console.log(customer_phone_number)
-            $.ajax({
-                url: '/home/accumulate_customer_order',
-                type: 'POST',
-                data: JSON.stringify({
-                    customer_phone: customer_phone_number
-                }),
-                contentType: 'application/json',
-                success: function(response){
+        $('#btn_save-pay').click(function() {
+            var customer_phone_number = $('#customer-phone__inp').val();
+            var payemnt_method = $('[name="btnradio"]:checked').val();
+            var totalBill = $('#customer-given__total-bill').val();
+            var customer_given = $('#customer-given__inp').val();
+
+            // $.ajax({
+            //     url: '/home/accumulate_customer_order',
+            //     type: 'POST',
+            //     data: JSON.stringify({
+            //         customer_phone: customer_phone_number
+            //     }),
+            //     contentType: 'application/json',
+            //     success: function(response){
                     
-                },
-                error: function(error){
+            //     },
+            //     error: function(error){
 
-                },
-                complete: function(){
+            //     },
+            //     complete: function(){
 
-                }
-            })
+            //     }
+            // })
         })
     })
 }

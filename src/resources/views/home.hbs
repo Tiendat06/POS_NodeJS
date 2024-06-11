@@ -481,7 +481,7 @@
 <div class="container-xxl flex-grow-1 container-p-y">
     <div class="row">
         <div class="col-lg-7 col-md-6 row flex-wrap">
-            <div class="col-lg-12 col-sm-12 col-12 mb-4">
+            <div class="col-lg-12 col-sm-12 col-12 mb-4 mt-2">
                 <small class="text-light fw-semibold">Category</small>
                 <div class="demo-inline-spacing">
                     <div class="btn-group" id="dropdown-icon-demo">
@@ -541,32 +541,14 @@
 
         <div class="col-lg-5 col-md-6 flex-wrap" style="border-radius: 10px">
             <div class="payment-info">
-                <div class="btn_add_customer mb-3">
+                <div class="btn_add_customer pb-3 mt-5" style="border-bottom: 1px solid #ccc;">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#backDropModal_add-customer"
                         type="button">
                         <i class='bx bx-user-plus'></i>
                         Add Customer</button>
                 </div>
 
-                <div class="input-group pb-3" style="border-bottom: 1px solid #ccc;">
-                    <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-
-                    <input type="text" class="form-control" id="customer-phone__inp" name="customer-phone__inp"
-                        placeholder="Phone number" aria-label="Phone number" aria-describedby="button-addon2" />
-                    <button class="btn btn-primary" style="border-top-right-radius: 5px; border-bottom-right-radius: 5px" type="button" id="button__find-customer">FIND</button>
-
-                    {{!-- active --}}
-                    <div id="customer-info-home" class="w-100">
-
-                    </div>
-
-
-                    <div class="alert alert-primary w-100 mt-3 mb-0 text-center d-none" role="alert"
-                        style="border-radius: 10px;">This is a primary alert — check it out!</div>
-
-                </div>
-
-                <div class="demo-inline-spacing home__item-list" id="" style="height: 450px; overflow:scroll;">
+                <div class="demo-inline-spacing home__item-list" id="" style="height: 490px; overflow: scroll;">
                     <div class="list-group list-group-flush" id="payment-info__order-list" style="margin: 0!important;">
                         {{#each orderList}}
                         <a style="border-bottom: 1px solid #ccc;" href="javascript:void(0);"
@@ -585,7 +567,7 @@
                 </div>
             </div>
 
-            <div class="payment-transaction">
+            <div class="payment-transaction pt-3">
                 <div class="mb-3 total-bill d-flex justify-content-between align-items-center">
                     <p class="total-bill__description mb-0">Total Bill:</p>
                     <p class="total-bill__price mb-0">{{totalBill}} $</p>
@@ -606,12 +588,14 @@
                 <div class="mb-3 payment-method d-flex justify-content-between align-items-center">
                     <p class="payment-method__description mb-0">Payment method:</p>
                     <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
-                        <input type="radio" class="btn-check" name="btnradio" id="paypal" autocomplete="off" />
+                        <input type="radio" class="btn-check" name="btnradio" value="Paypal" id="paypal"
+                            autocomplete="off" />
                         <label class="btn btn-outline-primary" for="paypal"><i class='bx bxl-paypal'></i>
                             Paypal</label>
                         {{!-- <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off" />
                         <label class="btn btn-outline-primary" for="btnradio2">Radio 2</label> --}}
-                        <input type="radio" class="btn-check" name="btnradio" id="cash" autocomplete="off" checked />
+                        <input type="radio" class="btn-check" name="btnradio" value="Cash" id="cash" autocomplete="off"
+                            checked />
                         <label class="btn btn-outline-primary" for="cash"><i class='bx bx-money'></i> Cash</label>
                     </div>
                 </div>
@@ -619,7 +603,8 @@
                 <div class="payment-btn d-flex flex-wrap justify-content-between mt-5">
                     <button type="submit"
                         class="payment-button col-lg-5 col-md-5 col-sm-5 btn btn-danger">Cancel</button>
-                    <button type="submit" class="payment-button col-lg-5 col-md-5 col-sm-5 btn btn-success">Pay</button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#backDropModal_payment"
+                        id="btn_payment" class="payment-button col-lg-5 col-md-5 col-sm-5 btn btn-success">Pay</button>
                 </div>
             </div>
         </div>
@@ -758,6 +743,87 @@
                     Close
                 </button>
                 <button type="button" id="btn_add-customer" class="btn btn-primary">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal payment and find cus by phone -->
+<div class="modal fade" id="backDropModal_payment" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Payment Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="nav-align-top mb-4">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-top-home" aria-controls="navs-top-home" aria-selected="true">
+                                Payment Info
+                            </button>
+                        </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                data-bs-target="#navs-top-profile" aria-controls="navs-top-profile"
+                                aria-selected="false">
+                                Find Phone
+                            </button>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                                        data-bs-target="#accordionThree" aria-expanded="false"
+                                        aria-controls="accordionThree">
+                                        Payment Info
+                                    </button>
+                                </h2>
+                                <div id="accordionThree" class="accordion-collapse collapse"
+                                    aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <p class="backdrop__total-bill">Total bill: 40.0 $</p>
+                                        <p class="backdrop__customer-given">Customer given: 40.0 $</p>
+                                        <p class="backdrop__given-change">Given change: 0.0 $</p>
+                                        <p class="mb-0 backdrop__payment-method">Payment method: Cash</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="navs-top-profile" role="tabpanel">
+                            <div class="input-group" style="">
+                                <span class="input-group-text" id="basic-addon-search31"><i
+                                        class="bx bx-search"></i></span>
+                                <input type="text" class="form-control" id="customer-phone__inp"
+                                    name="customer-phone__inp" placeholder="Phone number" aria-label="Phone number"
+                                    aria-describedby="button-addon2" />
+                                <button class="btn btn-primary"
+                                    style="border-top-right-radius: 5px; border-bottom-right-radius: 5px" type="button"
+                                    id="button__find-customer">FIND</button>
+                                {{!-- active --}}
+                                <div id="customer-info-home" class="w-100"></div>
+                                <div class="alert alert-primary w-100 mt-3 mb-0 text-center d-none" role="alert"
+                                    style="border-radius: 10px;">This is a primary alert — check it out!</div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="pay-order__status" role="alert">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <button type="button" id="btn_save-pay" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>

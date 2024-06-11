@@ -26,6 +26,16 @@ class CustomerRepository{
         })
     }
 
+    async findCustomerByPhoneNumber(customer_phone){
+        return Customer.findOne({customer_phone_number: customer_phone})
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
+
 }
 
 module.exports = new CustomerRepository;

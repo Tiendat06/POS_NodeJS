@@ -21,6 +21,9 @@ router.post('/home/find_customer_by_phone', siteMiddleWare.find_customer_by_phon
 // [POST] /home/accumulate_customer_order
 router.post('/home/accumulate_customer_order', siteController.accumulate_customer_order);
 
+// [POST] /home/home_payment
+router.post('/home/home_payment', siteController.home_payment);
+
 // [GET] /:page
 router.get("/:page", siteMiddleWare.index);
 

@@ -4,6 +4,8 @@ const orderService = require('../services/OrderService');
 const orderRepository = require('../repository/OrderRepository');
 const userRepository = require('../repository/UserRepository');
 const customerService = require('../services/CustomerService');
+const paymentMethodFactory = require('../models/Factory/PaymentMethodFactory');
+const PaymentMethodStrategy = require('../models/Strategy/PaymentMethod/PaymentMethodStrategy');
 
 class SiteController {
 
@@ -126,6 +128,20 @@ class SiteController {
             console.log(error);
             res.redirect('/error');
         })
+    }
+
+    // [POST] /home/home_payment
+    async home_payment(req, res, next){
+        var requestJson = req.body;
+        var payment_method_name = requestJson.payemnt_method;
+        var payment = paymentMethodFactory.createPaymentMethod(payment_method_name);
+        var payment_processor = new PaymentMethodStrategy(payment).pay(req, requestJson);
+        
+        if(payment_processor){
+            delete req.session.order_id;
+            return res.json('Payment Successfully !!');
+        }
+        return res.json('Payment failed !!');
     }
 }
 
