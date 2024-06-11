@@ -130,7 +130,8 @@ class OrderRepository {
                 }
             }, {
                 $unwind: '$order_details_db',
-            }, {
+            }, 
+            {
                 $addFields: {
                     total_quantity: { $sum: '$order_details_db.quantity' }
                 }
@@ -148,7 +149,33 @@ class OrderRepository {
                 $addFields: {
                     customer_given: { $sum: ['$payment_db.total_amount', '$payment_db.change_given'] }
                 }
+            }, {
+                $addFields: {
+                    total_amount: '$payment_db.total_amount' 
+                }
+            }, {
+                $addFields: {
+                    change_given: '$payment_db.change_given'
+                }
             }, 
+            {
+                $group: {
+                    _id: '$order_id',
+                    order: { $first: '$$ROOT' },
+                    total_quantity: { $first: '$total_quantity' },
+                    order_details_db: { $push: '$order_details_db' },
+                    payment_db: { $push: '$payment_db' },
+                    customer_given: { $first: '$customer_given' },
+                    total_amount: {$first: '$total_amount'} ,
+                    change_given: {$first: '$change_given'},
+                }
+            },  {
+                $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: ['$order', { order_details_db: '$order_details_db', payment_db: '$payment_db' }]
+                    }
+                }
+            }
         ])
         .then(result => {
             return result;

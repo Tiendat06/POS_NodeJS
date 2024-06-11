@@ -479,10 +479,11 @@ function jsInProduct(){
 }
 
 function jsInCustomer(){
+    // show customer order
     $(document).ready(() => {
         $('.btn-show-customer-order').click(function() {
             var customer_id = $(this).data('customer_id');
-            console.log(customer_id);
+            // console.log(customer_id);
             $.ajax({
                 url: '/customer/view_order',
                 type: 'POST',
@@ -491,13 +492,111 @@ function jsInCustomer(){
                 }),
                 contentType: 'application/json',
                 success: function(response){
-                    console.log(response);
-                    console.log('hi world');
+                    // console.log(response);
+                    // console.log('hi world');
                     $('#customer-order__tbody').html(response);
                 },
                 error: function(error){
                     console.log(error);
                     // $('#customer-order__tbody').html(error);
+                },
+                complete: function(){
+                    ajaxCompleteInCustomer();
+                }
+            })
+        })
+    });
+
+    // edit customer
+    $(document).ready(() => {
+        $('.btn-show-details').click(function() {
+            var customer_id = $(this).data('customer_id');
+            var customer_first_name = $(this).data('customer_first_name');
+            var customer_last_name = $(this).data('customer_last_name');
+            var customer_email = $(this).data('customer_email');
+            var customer_phone_number = $(this).data('customer_phone_number');
+            var customer_address = $(this).data('customer_address');
+            var customer_dob = $(this).data('customer_dob');
+            var customer_gender = $(this).data('customer_gender');
+
+            $('#customer_id_edit').val(customer_id);
+            $('#firstName_edit').val(customer_first_name);
+            $('#lastName_edit').val(customer_last_name);
+            $('#email_edit').val(customer_email);
+            $('#phone_edit').val(customer_phone_number);
+            $('#address_edit').val(customer_address);
+            $('#dob_edit').val(customer_dob);
+            $('#gender_edit').val(customer_gender);
+            $('#old_phone_edit').val(customer_phone_number);
+        })
+    });
+
+    //edit customer ajax
+    $(document).ready(() => {
+        $('#btn_edit-customer').click(function() {
+            var customer_id = $('#customer_id_edit').val();
+            var customer_first_name = $('#firstName_edit').val();
+            var customer_last_name = $('#lastName_edit').val();
+            var customer_email = $('#email_edit').val();
+            var customer_phone = $('#phone_edit').val();
+            var customer_address = $('#address_edit').val();
+            var customer_dob = $('#dob_edit').val();
+            var customer_gender = $('#gender_edit').val();
+            var customer_old_phone = $('#old_phone_edit').val();
+
+            $.ajax({
+                url: '/customer/edit?_method=PUT',
+                type: 'POST',
+                data: JSON.stringify({
+                    customer_id: customer_id,
+                    customer_first_name: customer_first_name,
+                    customer_last_name: customer_last_name,
+                    customer_email: customer_email,
+                    customer_phone: customer_phone,
+                    customer_address: customer_address,
+                    customer_dob: customer_dob,
+                    customer_gender: customer_gender,
+                    customer_old_phone: customer_old_phone
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $('#edit-customer__status').removeClass('d-none');
+                    $('#edit-customer__status').addClass('alert-primary');
+                    $('#edit-customer__status').html(response);
+                },
+                error: function(error){
+                    $('#edit-customer__status').removeClass('d-none');
+                    $('#edit-customer__status').addClass('alert-danger');
+                    $('#edit-customer__status').html(error);
+                },
+                complete: function(){
+
+                }
+            })
+        })
+    });
+}
+
+function ajaxCompleteInCustomer(){
+
+    // view customer order detail
+    $(document).ready(() => {
+        $('.btn-show-order-details').click(function() {
+            var order_id = $(this).data('order_id');
+            // console.log(order_id);
+
+            $.ajax({
+                url: '/customer/view_order_details',
+                type: 'POST',
+                data: JSON.stringify({
+                    order_id: order_id
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $('#customer-order-details__tbody').html(response);
+                },
+                error: function(error){
+                    $('#customer-order-details__tbody').html(error);
                 },
                 complete: function(){
 
@@ -717,30 +816,5 @@ function jsInHome(){
 }
 
 function ajaxCompleteInHome(){
-    $(document).ready(() => {
-        $('#btn_save-pay').click(function() {
-            var customer_phone_number = $('#customer-phone__inp').val();
-            var payemnt_method = $('[name="btnradio"]:checked').val();
-            var totalBill = $('#customer-given__total-bill').val();
-            var customer_given = $('#customer-given__inp').val();
 
-            // $.ajax({
-            //     url: '/home/accumulate_customer_order',
-            //     type: 'POST',
-            //     data: JSON.stringify({
-            //         customer_phone: customer_phone_number
-            //     }),
-            //     contentType: 'application/json',
-            //     success: function(response){
-                    
-            //     },
-            //     error: function(error){
-
-            //     },
-            //     complete: function(){
-
-            //     }
-            // })
-        })
-    })
 }

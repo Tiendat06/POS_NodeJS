@@ -3,25 +3,18 @@
     <td>{{sum @index 1}}</td>
     <td class="text-center">{{convertDate (convertDateTime this.date_created)}}</td>
     <td class="text-center">{{this.customer_given}} $</td>
-    <td class="text-center">{{this.payment_db.total_amount}} $</td>
-    <td class="text-center">{{this.payment_db.change_given}} $</td>
-    <td class="text-center">{{total_quantity}}</td>
+    <td class="text-center">{{this.total_amount}} $</td>
+    <td class="text-center">{{this.change_given}} $</td>
+    {{!-- <td class="text-center">{{total_quantity}}</td> --}}
     <td class="text-center">
         <div class="dropdown">
             <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                 <i class="bx bx-dots-vertical-rounded"></i>
             </button>
             <div class="dropdown-menu" style="z-index:99;">
-                <button data-bs-toggle="modal" data-bs-target="#backDropModal_view-order"
-                    data-customer_id="{{this.order_id}}" class="dropdown-item btn-show-delete">
+                <button data-bs-toggle="modal" data-bs-target="#backDropModal_view-order-details"
+                    data-order_id="{{this.order_id}}" class="dropdown-item btn-show-order-details">
                     <i class='bx bx-cart-alt'></i> View</button>
-                {{!-- <button data-bs-toggle="modal" data-bs-target="#backDropModal_edit-product"
-                    data-customer_id="{{this.customer_id}}"
-                    data-customer_name="{{this.customer_first_name}} {{this.customer_last_name}}"
-                    data-customer_email="{{this.customer_email}}"
-                    data-customer_phone_number="{{this.customer_phone_number}}"
-                    data-customer_point="{{this.customer_point}}" data-customer_address="{{this.customer_address}}"
-                    class="dropdown-item btn-show-details"><i class="bx bx-edit-alt me-1"></i> Edit</button> --}}
             </div>
         </div>
     </td>

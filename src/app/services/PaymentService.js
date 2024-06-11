@@ -32,9 +32,17 @@ class PaymentService{
             'change_given': given_change
         }
 
+        var promiseUpdatePoint = new Promise((resolve, reject) => {
+            if(customer_id != ''){
+                customerRepository.updateCustomerPoint(customer_phone_number);
+                resolve();
+            }
+        })
+
         return Promise.all([
             Payment.insertMany(payment),
-            orderRepository.updateOrderWhilePaySuccess(order_id, customer_id)
+            orderRepository.updateOrderWhilePaySuccess(order_id, customer_id),
+            promiseUpdatePoint
         ]).then(result => {
             return result;
         })

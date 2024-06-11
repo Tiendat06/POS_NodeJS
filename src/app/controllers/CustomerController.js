@@ -28,22 +28,43 @@ class CustomerController{
         var requestJson = req.body;
         return customerService.view_order(requestJson)
         .then(result => {
-            console.log("Result: "+result);
-            if(result){
-                return res.render('customer/view_order', {
-                    customerOrder: multipleMongooseToObj(result),
-                    isAjax: true,
-                })
-            } 
-            // else{
-            //     throw new Error();
-            // }
+            return res.render('customer/view_order', {
+                customerOrder: multipleMongooseToObj(result),
+                isAjax: true,
+            })
         })
         .catch(error => {
             console.log(error);
-            // return res.render('customer/view_order', {
-            //     isAjax: true
-            // })
+        })
+    }
+
+    // [POST] /customer/view_order_details
+    async view_order_details(req, res, next){
+        var requestJson = req.body;
+        return customerService.view_order_details(requestJson)
+        .then(result => {
+            return res.render('customer/view_order_details', {
+                orderDetailsList: multipleMongooseToObj(result),
+                isAjax: true,
+            })
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
+    // [PUT] /customer/edit
+    async edit_customer(req, res, next, requestJson, responseData){
+        return customerService.edit_customer(requestJson)
+        .then(result => {
+            if(result.modifiedCount > 0){
+                return res.json(responseData.success);
+            }
+            return res.json(responseData.fail);
+        })
+        .catch(error => {
+            console.log(error);
+            return res.json(responseData.fail);
         })
     }
 }

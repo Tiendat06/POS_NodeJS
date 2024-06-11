@@ -91,13 +91,15 @@
                                                     class="dropdown-item btn-show-customer-order">
                                                     <i class='bx bx-cart-alt'></i> View</button>
                                                 <button data-bs-toggle="modal"
-                                                    data-bs-target="#backDropModal_edit-product"
+                                                    data-bs-target="#backDropModal_edit-customer"
                                                     data-customer_id="{{this.customer_id}}"
-                                                    data-customer_name="{{this.customer_first_name}} {{this.customer_last_name}}"
+                                                    data-customer_first_name="{{this.customer_first_name}}"
+                                                    data-customer_last_name="{{this.customer_last_name}}"
                                                     data-customer_email="{{this.customer_email}}"
                                                     data-customer_phone_number="{{this.customer_phone_number}}"
-                                                    data-customer_point="{{this.customer_point}}"
                                                     data-customer_address="{{this.customer_address}}"
+                                                    data-customer_dob="{{this.customer_dob}}"
+                                                    data-customer_gender="{{this.customer_gender}}"
                                                     class="dropdown-item btn-show-details"><i
                                                         class="bx bx-edit-alt me-1"></i> Edit</button>
                                             </div>
@@ -138,198 +140,81 @@
 <!-- Modal Backdrop -->
 
 
-<!-- Modal add -->
-<div class="modal fade" id="backDropModal_add-product" data-bs-backdrop="static" tabindex="-1">
+<!-- Modal edit customer -->
+<div class="modal fade" id="backDropModal_edit-customer" data-bs-backdrop="static" tabindex="-1">
     <div class="modal-dialog">
         <form class="modal-content" onsubmit="return false">
             <div class="modal-header">
-                <h5 class="modal-title" id="backDropModalTitle">Add Product</h5>
+                <h5 class="modal-title" id="backDropModalTitle">Edit Customer</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="row">
+                <input type="hidden" name="customer_id_edit" id="customer_id_edit">
+                <input type="hidden" name="old_phone_edit" id="old_phone_edit">
+                <div class="row g-2">
                     <div class="col mb-3">
-                        <label for="name_add" class="form-label">Product Name</label>
-                        <input type="text" name="name_add" id="name_add" class="form-control"
-                            placeholder="Enter product name" />
+                        <label for="firstName_edit" class="form-label">First Name</label>
+                        <input type="text" name="firstname_edit" id="firstName_edit" class="form-control"
+                            placeholder="Enter first name" />
                     </div>
-                    {{!-- <div class="col mb-3">
-                        <label for="lastNameBackdrop" class="form-label">Last Name</label>
-                        <input type="text" name="lastname_add" id="lastNameBackdrop" class="form-control"
+                    <div class="col mb-3">
+                        <label for="lastName_edit" class="form-label">Last Name</label>
+                        <input type="text" name="lastname_edit" id="lastName_edit" class="form-control"
                             placeholder="Enter last name" />
-                    </div> --}}
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="import_price_add" class="form-label">Import Price</label>
-                        <input type="text" name="import_price_add" id="import_price_add" class="form-control"
-                            placeholder="Enter import price" />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="retail_add" class="form-label">Retail Price</label>
-                        <input type="text" name="retail_add" id="retail_add" class="form-control"
-                            placeholder="Enter retail price" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="category_add" class="form-label">Category</label>
-                        <select id="category_add" class="select form-select" name="category_add">
-                            <option value="">Select category</option>
-                            {{#each categoryList}}
-                            <option value="{{this.category_id}}">{{this.category_name}}</option>
-                            {{!-- <option value="Female">Female</option> --}}
-                            {{/each}}
+                        <label for="gender_edit" class="form-label">Gender</label>
+                        <select id="gender_edit" class="select form-select" name="gender_edit">
+                            <option value="">Select gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="quantity_add" class="form-label">Quantity</label>
-                        <input type="text" name="quantity_add" id="quantity_add" class="form-control"
+                        <label for="email_edit" class="form-label">Email</label>
+                        <input type="email" name="email_edit" id="email_edit" class="form-control"
+                            placeholder="Enter customer email" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="phone_edit" class="form-label">Phone number</label>
+                        <input type="text" name="phone_edit" id="phone_edit" class="form-control"
+                            placeholder="Enter phone number" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col mb-3">
+                        <label for="address_edit" class="form-label">Address</label>
+                        <input type="text" name="address_edit" id="address_edit" class="form-control"
                             placeholder="Enter quantity" />
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col mb-3">
-                        <label for="img_add" class="form-label">Product Image</label>
-                        {{!-- <input type="text" name="address_name" id="addressBackdrop" class="form-control"
-                            placeholder="Enter address" /> --}}
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="img_add" name="img_add"
-                                accept="image/png, image/jpeg" />
-                            <label class="input-group-text" for="img_add">Upload</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="description_add" class="form-label">Description</label>
-                        {{!-- <input type="text" name="address_name" id="addressBackdrop" class="form-control"
-                            placeholder="Enter address" /> --}}
-                        <div class="input-group input-group-merge speech-to-text">
-                            <textarea id="description_add" name="description_add" class="form-control"
-                                placeholder="Say or text it" rows="2"></textarea>
-                            <span class="input-group-text">
-                                <i class="bx bx-microphone cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert text-center m-auto d-none" style="width: 90%;" id="add-product__status" role="alert">
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                    Close
-                </button>
-                <button type="button" id="btn_add" class="btn btn-primary">Save</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Modal edit -->
-<div class="modal fade" id="backDropModal_edit-product" data-bs-backdrop="static" tabindex="-1">
-    <div class="modal-dialog">
-        <form class="modal-content" onsubmit="return false">
-            <div class="modal-header">
-                <h5 class="modal-title" id="backDropModalTitle">Edit Product</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" name="product_id_edit" id="product_id_edit">
-                <input type="hidden" name="product_img_edit" id="product_img_edit">
-                <input type="hidden" name="public_id_edit" id="public_id_edit">
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="name_edit" class="form-label">Product Name</label>
-                        <input type="text" name="name_edit" id="name_edit" class="form-control"
-                            placeholder="Enter product name" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="import_price_edit" class="form-label">Import Price</label>
-                        <input type="text" name="import_price_edit" id="import_price_edit" class="form-control"
-                            placeholder="Enter import price" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="retail_edit" class="form-label">Retail Price</label>
-                        <input type="text" name="retail_edit" id="retail_edit" class="form-control"
-                            placeholder="Enter retail price" />
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="category_edit" class="form-label">Category</label>
-                        <select id="category_edit" class="select form-select" name="category_edit">
-                            <option value="">Select category</option>
-                            {{#each categoryList}}
-                            <option value="{{this.category_id}}">{{this.category_name}}</option>
-                            {{/each}}
-                        </select>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="quantity_edit" class="form-label">Quantity</label>
-                        <input type="text" name="quantity_edit" id="quantity_edit" class="form-control"
+                        <label for="dob_edit" class="form-label">Birthday</label>
+                        <input type="date" name="dob_edit" id="dob_edit" class="form-control"
                             placeholder="Enter quantity" />
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="img_edit" class="form-label">Product Image (Optional)</label>
-                        <div class="input-group">
-                            <input type="file" class="form-control" id="img_edit" name="img_edit"
-                                accept="image/png, image/jpeg" />
-                            <label class="input-group-text" for="img_edit">Upload</label>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col mb-3">
-                        <label for="description_edit" class="form-label">Description</label>
-                        {{!-- <input type="text" name="address_name" id="addressBackdrop" class="form-control"
-                            placeholder="Enter address" /> --}}
-                        <div class="input-group input-group-merge speech-to-text">
-                            <textarea id="description_edit" name="description_edit" class="form-control"
-                                placeholder="Say or text it" rows="2"></textarea>
-                            <span class="input-group-text">
-                                <i class="bx bx-microphone cursor-pointer text-to-speech-toggle"></i>
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="alert text-center m-auto d-none" style="width: 90%;" id="edit-product__status" role="alert">
+                <div class="alert text-center m-auto d-none" style="width: 100%;" id="edit-customer__status" role="alert">
             </div>
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <button type="button" id="btn_edit" class="btn btn-primary">Save</button>
+                <button type="button" id="btn_edit-customer" class="btn btn-primary">Save</button>
             </div>
         </form>
     </div>
@@ -354,7 +239,7 @@
                                     <th class="text-center">Amount Paid</th>
                                     <th class="text-center">Total Bill</th>
                                     <th class="text-center">Change given</th>
-                                    <th class="text-center">Quantity</th>
+                                    {{!-- <th class="text-center">Quantity</th> --}}
                                     <th class="text-center">Order details</th>
                                 </tr>
                             </thead>
@@ -374,6 +259,48 @@
                     Close
                 </button>
                 {{!-- <button type="button" id="btn_delete" class="btn btn-primary">Save</button> --}}
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Modal view order detail -->
+<div class="modal fade" id="backDropModal_view-order-details" data-bs-backdrop="static" tabindex="-1">
+    <div class="modal-dialog  modal-xl">
+        <form class="modal-content" onsubmit="return false">
+            <div class="modal-header">
+                <h5 class="modal-title" id="backDropModalTitle">Order Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="table-responsive text-nowrap">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th class="text-center">Product name</th>
+                                    <th class="text-center">Category</th>
+                                    <th class="text-center">Quantity</th>
+                                    <th class="text-center">Retail price</th>
+                                    <th class="text-center">Total amount</th>
+                                </tr>
+                            </thead>
+                            <tbody id="customer-order-details__tbody">
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="alert text-center m-auto d-none" style="width: 90%;" id="delete-product__status" role="alert">
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
             </div>
         </form>
     </div>

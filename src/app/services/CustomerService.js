@@ -1,5 +1,7 @@
 const Customer = require("../models/Customer");
+const OrderDetails = require("../models/OrderDetails");
 const customerRepository = require("../repository/CustomerRepository");
+const orderDetailsRepository = require("../repository/OrderDetailsRepository");
 const orderRepository = require("../repository/OrderRepository");
 
 class CustomerService{
@@ -68,14 +70,10 @@ class CustomerService{
         })
     }
 
-    async updateCustomerPoint(customer_phone){
-        var customer = await Customer.findOne({customer_phone_number: customer_phone});
-        var customer_point = customer.customer_point;
-        var new_customer_point = customer_point + 1;
-
-        return Customer.updateOne({customer_phone_number: customer_phone}, {
-            customer_point: new_customer_point
-        })
+    async view_order(requestJson){
+        var customer_id = requestJson.customer_id;
+        // console.log("Cus_id: "+customer_id);
+        return orderRepository.findOrderAndOrderDetailsByCustomerId(customer_id)
         .then(result => {
             return result;
         })
@@ -84,10 +82,19 @@ class CustomerService{
         })
     }
 
-    async view_order(requestJson){
-        var customer_id = requestJson.customer_id;
-        console.log("Cus_id: "+customer_id);
-        return orderRepository.findOrderAndOrderDetailsByCustomerId(customer_id)
+    async view_order_details(requestJson){
+        var order_id = requestJson.order_id;
+        return orderDetailsRepository.findOrderDetailsAndProductByOrderId(order_id)
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
+
+    async edit_customer(requestJson){
+        return customerRepository.updateCustomer(requestJson)
         .then(result => {
             return result;
         })

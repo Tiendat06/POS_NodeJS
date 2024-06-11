@@ -1,0 +1,10 @@
+{{#each orderDetailsList}}
+<tr>
+    <td>{{sum @index 1}}</td>
+    <td class="text-center">{{this.product_name}}</td>
+    <td class="text-center">{{this.category_db.category_name}}</td>
+    <td class="text-center">x {{this.order_details_db.quantity}}</td>
+    <td class="text-center">{{this.retail_price}} $</td>
+    <td class="text-center">{{this.total_amount}} $</td>
+</tr>
+{{/each}}
