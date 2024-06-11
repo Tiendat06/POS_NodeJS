@@ -1,5 +1,6 @@
 const Customer = require("../models/Customer");
 const customerRepository = require("../repository/CustomerRepository");
+const orderRepository = require("../repository/OrderRepository");
 
 class CustomerService{
 
@@ -75,6 +76,18 @@ class CustomerService{
         return Customer.updateOne({customer_phone_number: customer_phone}, {
             customer_point: new_customer_point
         })
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
+
+    async view_order(requestJson){
+        var customer_id = requestJson.customer_id;
+        console.log("Cus_id: "+customer_id);
+        return orderRepository.findOrderAndOrderDetailsByCustomerId(customer_id)
         .then(result => {
             return result;
         })

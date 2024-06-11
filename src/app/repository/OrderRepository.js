@@ -114,6 +114,49 @@ class OrderRepository {
             date_created: Date.now(),
         })
     }
+
+    async findOrderAndOrderDetailsByCustomerId(customer_id){
+        return Order.aggregate([
+            {
+                $match: {
+                    'customer_id': customer_id
+                }
+            }, {
+                $lookup: {
+                    from: 'order_details',
+                    localField: 'order_id',
+                    foreignField: 'order_id',
+                    as: 'order_details_db',
+                }
+            }, {
+                $unwind: '$order_details_db',
+            }, {
+                $addFields: {
+                    total_quantity: { $sum: '$order_details_db.quantity' }
+                }
+            },
+            {
+                $lookup: {
+                    from: 'payment',
+                    localField: 'order_id',
+                    foreignField: 'order_id',
+                    as: 'payment_db',
+                }
+            }, {
+                $unwind: '$payment_db'
+            }, {
+                $addFields: {
+                    customer_given: { $sum: ['$payment_db.total_amount', '$payment_db.change_given'] }
+                }
+            }, 
+        ])
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
 }
 
 module.exports = new OrderRepository;

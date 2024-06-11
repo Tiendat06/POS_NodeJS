@@ -22,6 +22,30 @@ class CustomerController{
             })
         });
     }
+
+    // [POST] /customer/view_order
+    async view_order(req, res, next){
+        var requestJson = req.body;
+        return customerService.view_order(requestJson)
+        .then(result => {
+            console.log("Result: "+result);
+            if(result){
+                return res.render('customer/view_order', {
+                    customerOrder: multipleMongooseToObj(result),
+                    isAjax: true,
+                })
+            } 
+            // else{
+            //     throw new Error();
+            // }
+        })
+        .catch(error => {
+            console.log(error);
+            // return res.render('customer/view_order', {
+            //     isAjax: true
+            // })
+        })
+    }
 }
 
 module.exports = new CustomerController;

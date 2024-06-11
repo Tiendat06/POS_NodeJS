@@ -2,7 +2,7 @@
 class PaypalMethod{
     pay(req, requestJson){
         console.log('paypal');
-        return 0;
+        return true;
     }
 }
 

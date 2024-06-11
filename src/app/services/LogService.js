@@ -39,6 +39,11 @@ class LogService{
         // return isError == false ? true : false;
     }
 
+    view_order(requestJson){
+        var customer_id = requestJson.customer_id;
+        
+    }
+
 }
 
 module.exports = new LogService

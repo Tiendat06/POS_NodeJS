@@ -478,6 +478,35 @@ function jsInProduct(){
     })
 }
 
+function jsInCustomer(){
+    $(document).ready(() => {
+        $('.btn-show-customer-order').click(function() {
+            var customer_id = $(this).data('customer_id');
+            console.log(customer_id);
+            $.ajax({
+                url: '/customer/view_order',
+                type: 'POST',
+                data: JSON.stringify({
+                    customer_id: customer_id,
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    console.log(response);
+                    console.log('hi world');
+                    $('#customer-order__tbody').html(response);
+                },
+                error: function(error){
+                    console.log(error);
+                    // $('#customer-order__tbody').html(error);
+                },
+                complete: function(){
+
+                }
+            })
+        })
+    })
+}
+
 function jsInHome(){
 
     // choose quan
@@ -607,6 +636,7 @@ function jsInHome(){
         })
     });
 
+    // save payment
     $(document).ready(() => {
         $('#btn_save-pay').click(function(){
             var payemnt_method = $('[name="btnradio"]:checked').val();
@@ -655,7 +685,8 @@ function jsInHome(){
                 })
             }
         })
-    })
+    });
+
 
     // order after choose quan
     // $(document).ready(() => {
