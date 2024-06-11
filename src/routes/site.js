@@ -18,6 +18,9 @@ router.post('/home/add_customer', siteMiddleWare.add_customer);
 // [POST] /home/find_customer_by_phone
 router.post('/home/find_customer_by_phone', siteMiddleWare.find_customer_by_phone);
 
+// [POST] /home/filter_product
+router.post('/home/filter_product', siteMiddleWare.filter_product);
+
 // [POST] /home/accumulate_customer_order
 router.post('/home/accumulate_customer_order', siteController.accumulate_customer_order);
 

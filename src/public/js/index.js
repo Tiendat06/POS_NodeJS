@@ -786,6 +786,30 @@ function jsInHome(){
         })
     });
 
+    // filter product by category
+    $(document).ready(() => {
+        $('.btn-show-category').click(function() {
+            var category_id = $(this).data('category_id');
+
+            $.ajax({
+                url: '/home/filter_product',
+                type: 'POST',
+                data: JSON.stringify({
+                    category_id: category_id
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $('#home__product-list').html(response);
+                },
+                error: function(error){
+                    $('#home__product-list').html(error);
+                },
+                complete: function(){
+
+                }
+            })
+        })
+    })
 
     // order after choose quan
     // $(document).ready(() => {
@@ -817,4 +841,39 @@ function jsInHome(){
 
 function ajaxCompleteInHome(){
 
+}
+
+function jsInLog(){
+    // change password
+    $(document).ready(() => {
+        $('#btn_change_password').click(function() {
+            var current_pass = $('#current_password').val();
+            var new_pass = $('#new_password').val();
+            var confirm_pass = $('#confirm_password').val();
+
+            $.ajax({
+                url: '/log/change_password?_method=PUT',
+                type: 'POST',
+                data: JSON.stringify({
+                    current_pass: current_pass,
+                    new_pass: new_pass,
+                    confirm_pass: confirm_pass
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $('#change-pass__status').removeClass('d-none');
+                    $('#change-pass__status').addClass('alert-primary');
+                    $('#change-pass__status').html(response);
+                },
+                error: function(error){
+                    $('#change-pass__status').removeClass('d-none');
+                    $('#change-pass__status').addClass('alert-danger');
+                    $('#change-pass__status').html(error);
+                },
+                complete: function(){
+
+                }
+            })
+        })
+    })
 }

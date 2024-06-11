@@ -1,4 +1,5 @@
 const Account = require("../models/Account");
+const userRepository = require("./UserRepository");
 
 class AccountRepository{
     async AUTO_ACC_ID() {
@@ -9,6 +10,22 @@ class AccountRepository{
             newIdNumber = lastIdNumber + 1;
         }
         return `ACC${newIdNumber.toString().padStart(7, '0')}`;
+    }
+
+    async checkPassword(req, current_pass){
+        var user_email = req.session.account;
+        var user = await userRepository.findUserByEmail(user_email);
+        return Account.findOne({account_id: user.account_id, deleted: false, account_password: current_pass})
+        .then(result => {
+            if(result){
+                return true;
+            }
+            return false;
+        })
+        .catch(error => {
+            console.log(error);
+            return false;
+        })
     }
 }
 

@@ -12,6 +12,12 @@ router.post('/login', logController.login_POST);
 // [GET] /log/register
 router.get('/register', logMiddleWare.register);
 
+// [GET] /log/change_password
+router.get('/change_password', logMiddleWare.change_password);
+
+// [PUT] /log/change_password
+router.put('/change_password', logMiddleWare.change_password_PUT);
+
 // [GET] /log/logout
 router.get('/logout', logController.logout);
 

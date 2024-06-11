@@ -198,6 +198,17 @@ class ProductService {
             return err;
         })
     }
+
+    async filter_product(requestJson){
+        var category_id = requestJson.category_id;
+        return productRepository.findProductByCategoryId(category_id)
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
 }
 
 module.exports = new ProductService();

@@ -1,0 +1,17 @@
+{{#each productList}}
+<div class="col-md-6 col-lg-4 mb-3 card-items">
+    <div class="card-outer cursor-pointer" data-product_id="{{this.product_id}}" data-bs-toggle="modal"
+        data-bs-target="#backDropModal_choose-quantity">
+        <div class="card h-100 text-center">
+            <img class="card-img-top" height="200" style="object-fit: cover;" src="{{this.product_image}}"
+                alt="Card image cap" />
+            <div class="card-body">
+                <h5 class="card-title">{{this.product_name}}</h5>
+                <p class="card-text">{{this.quantity}} remaining</p>
+                <p class="card-text">{{this.retail_price}}$</p>
+                {{!-- <a href="javascript:void(0)" class="btn btn-outline-primary">Go somewhere</a> --}}
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}

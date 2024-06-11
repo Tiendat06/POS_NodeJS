@@ -143,6 +143,26 @@ class SiteController {
         }
         return res.json('Payment failed !!');
     }
+
+    // [POST] /home/filter_product
+    async filter_product(req, res, next, requestJson){
+        return productService.filter_product(requestJson)
+        .then(result => {
+            if(result){
+                return res.render('site/filter_product', {
+                    isAjax: true,
+                    productList: multipleMongooseToObj(result)
+                })
+            }
+            throw new Error();
+        })
+        .catch(error => {
+            console.log(error);
+            return res.render('site/filter_product', {
+                isAjax: true,
+            })
+        })
+    }
 }
 
 module.exports = new SiteController;

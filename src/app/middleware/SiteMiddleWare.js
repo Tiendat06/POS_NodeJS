@@ -109,6 +109,18 @@ class SiteMiddleWare{
         }
 
     }
+
+    filter_product(req, res, next){
+        var requestJson = req.body;
+        var category_id = requestJson.category_id;
+        if(category_id == undefined || category_id == ''){
+            res.render('site/filter_product', {
+                isAjax: true,
+            })
+        } else{
+            siteController.filter_product(req, res, next, requestJson);
+        }
+    }
 }
 
 module.exports = new SiteMiddleWare;

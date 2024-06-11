@@ -58,6 +58,26 @@ class LogController {
             }
         });
     }
+
+    // [GET] /log/change_password
+    change_password(req, res, next){
+        res.render('log/change_password');
+    }
+
+    // [PUT] /log/change_password_PUT
+    async change_password_PUT(req, res, next, requestJson, responseData){
+        return logServices.change_password_PUT(req, requestJson)
+        .then(result => {
+            if(result.modifiedCount > 0){
+                return res.json(responseData.success);
+            }
+            return res.json(responseData.fail);
+        })
+        .catch(error => {
+            console.log(error);
+            return res.json(responseData.fail);
+        })
+    }
 }
 
 module.exports = new LogController();

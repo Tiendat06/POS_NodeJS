@@ -46,7 +46,7 @@ class ProductRepository{
     }
 
     async findProductByProductId(product_id){
-        return Product.findOne({product_id: product_id})
+        return Product.findOne({product_id: product_id, deleted: false})
         .then(result => {
             return result;
         })
@@ -68,6 +68,16 @@ class ProductRepository{
         .catch(error => {
             console.log(error);
             return false;
+        })
+    }
+
+    async findProductByCategoryId(category_id){
+        return Product.find({category_id: category_id, deleted: false})
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
         })
     }
 

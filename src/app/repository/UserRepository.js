@@ -27,7 +27,7 @@ class UserRepository{
     }
 
     async findUserByEmail(email){
-        return User.findOne({user_email: email})
+        return User.findOne({user_email: email, deleted: false})
         .then(result => {
             return result;
         })

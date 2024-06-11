@@ -82,6 +82,11 @@ class OrderRepository {
             }, {
                 $unwind: '$product_db'
             }, {
+                $match: {
+                    'product_db.deleted': false
+                }
+            },
+            {
                 $group: {
                     _id: '$order_id',
                     totalAmount: {
