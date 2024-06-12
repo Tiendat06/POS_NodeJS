@@ -183,8 +183,12 @@ class SiteController {
     async home_payment(req, res, next){
         var requestJson = req.body;
         var payment_method_name = requestJson.payemnt_method;
+        // console.log(payment_method_name);
 
-        var payment_id = await paymentRepository.findPaymentMethodIdByName(payment_method_name).payment_method_id;
+        var payment = await paymentRepository.findPaymentMethodIdByName(payment_method_name);
+        var payment_id = payment.payment_method_id;
+        // console.log(payment_id);
+
         var payment = paymentMethodFactory.createPaymentMethod(payment_method_name);
         var payment_processor = await new PaymentMethodStrategy(payment).pay(req, res);
         // console.log(payment_processor);
@@ -215,6 +219,29 @@ class SiteController {
             console.log(error);
             return res.render('site/filter_product', {
                 isAjax: true,
+            })
+        })
+    }
+
+    async filter_product_by_name(req, res, next){
+        var requestJson = req.body;
+        return productService.searchProductByRegex(req, requestJson)
+        .then(async (result) => {
+            console.log(result);
+            const pagesArray = Array.from({ length: result.totalPages }, (_, i) => i + 1);
+            
+            res.render('site/search_product', {
+                productList: multipleMongooseToObj(result.result),
+                categoryList: multipleMongooseToObj(result.category),
+                currentPage: result.page,
+                totalPages: pagesArray,
+                isAjax: true
+            })
+        })
+        .catch(error => {
+            console.log(error);
+            res.render('site/search_product', {
+                isAjax: true
             })
         })
     }

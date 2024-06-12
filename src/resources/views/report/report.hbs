@@ -26,7 +26,7 @@
 
             </ul>
 
-            <div class="row">
+            <div class="row" id="report__payment-info">
                 <div class="col-lg-3 col-md-12 col-6 mb-4">
                     <div class="card">
                         <div class="card-body">
@@ -48,7 +48,8 @@
                             </div>
                             <span class="fw-semibold d-block mb-1">Profit</span>
                             <h3 class="card-title mb-2">${{totalProfit}}</h3>
-                            {{!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +72.80%</small> --}}
+                            {{!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
+                                +72.80%</small> --}}
                         </div>
                     </div>
                 </div>
@@ -72,7 +73,8 @@
                             </div>
                             <span class="fw-semibold d-block mb-1">Sales</span>
                             <h3 class="card-title text-nowrap mb-2">${{totalAmount}}</h3>
-                            {{!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.42%</small> --}}
+                            {{!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
+                                +28.42%</small> --}}
                         </div>
                     </div>
                 </div>
@@ -97,7 +99,8 @@
                             </div>
                             <span class="d-block mb-1">Payments</span>
                             <h3 class="card-title text-nowrap mb-2">{{totalOrder}}</h3>
-                            {{!-- <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i> -14.82%</small> --}}
+                            {{!-- <small class="text-danger fw-semibold"><i class="bx bx-down-arrow-alt"></i>
+                                -14.82%</small> --}}
                         </div>
                     </div>
                 </div>
@@ -121,20 +124,38 @@
                             </div>
                             <span class="fw-semibold d-block mb-1">Product</span>
                             <h3 class="card-title mb-2">{{totalProductQuantity}}</h3>
-                            {{!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i> +28.14%</small> --}}
+                            {{!-- <small class="text-success fw-semibold"><i class="bx bx-up-arrow-alt"></i>
+                                +28.14%</small> --}}
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
+            <div class="d-flex flex-wrap justify-content-end mb-3">
+                <div class="w-25">
+                    <div class="mb-3 row">
+                        <label for="html5-date-input" class="col-md-2 col-form-label">from</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="date" value="2024-06-18" id="report__date-from" />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 row">
+                        <label for="html5-date-input" class="col-md-2 col-form-label">to</label>
+                        <div class="col-md-10">
+                            <input class="form-control" type="date" value="2024-06-18" id="report__date-to" />
+                        </div>
+                    </div>
+
+                    <div class="d-flex flex-wrap justify-content-end">
+                        <button type="submit" id="btn__filter-date" class="btn btn-primary">FIND</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="report__order-card" class="card">
                 <div class="user-management d-flex flex-wrap justify-content-between align-items-center">
                     <h5 class="card-header">Report and Statistic</h5>
-                    {{!-- <div class="btn__add-user p-4">
-                        <button class="btn btn-primary" data-bs-toggle="modal"
-                            data-bs-target="#backDropModal_add-product" type="submit"><i
-                                class='bx bxl-product-hunt'></i> Add Product</button>
-                    </div> --}}
                 </div>
                 <div class="card-body">
                     <div class="table-responsive text-nowrap">
@@ -154,7 +175,8 @@
                                 <tr>
                                     <td>{{sum @index 1}}</td>
                                     <td>{{convertDateTimeVersion2 this.date_created}}</td>
-                                    <td>{{this.customer_db.customer_first_name}} {{this.customer_db.customer_last_name}}</td>
+                                    <td>{{this.customer_db.customer_first_name}} {{this.customer_db.customer_last_name}}
+                                    </td>
                                     <td>{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}</td>
                                     <td>{{this.total_amount}} $</td>
                                     <td class="text-center">

@@ -209,6 +209,17 @@ class ProductService {
             return error;
         })
     }
+
+    async searchProductByRegex(req, requestJson){
+        var search_name = requestJson.search_name;
+        return productRepository.searchProductByRegex(req, search_name)
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
 }
 
 module.exports = new ProductService();

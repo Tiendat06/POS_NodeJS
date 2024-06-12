@@ -23,6 +23,38 @@ class ReportMiddleWare{
             reportController.view_orders_details(req, res, next, requestJson);
         }
     }
+
+    filter_table_by_date(req, res, next){
+        var requestJson = req.body;
+        var dateFrom = requestJson.dateFrom;
+        var dateTo = requestJson.dateTo;
+
+        if(dateFrom == undefined || dateFrom == '' ||
+            dateTo == undefined || dateTo == ''
+        ){
+            res.render('/report/filter_table_by_date', {
+                isAjax: true
+            })
+        } else{
+            reportController.filter_table_by_date(req, res, next, requestJson);
+        }
+    }
+
+    filter_payment_by_date(req, res, next){
+        var requestJson = req.body;
+        var dateFrom = requestJson.dateFrom;
+        var dateTo = requestJson.dateTo;
+
+        if(dateFrom == undefined || dateFrom == '' ||
+            dateTo == undefined || dateTo == ''
+        ){
+            res.render('/report/filter_payment_by_date', {
+                isAjax: true
+            })
+        } else{
+            reportController.filter_payment_by_date(req, res, next, requestJson);
+        }
+    }
 }
 
 module.exports = new ReportMiddleWare;

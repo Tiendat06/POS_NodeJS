@@ -1,0 +1,69 @@
+<div class="user-management d-flex flex-wrap justify-content-between align-items-center">
+    <h5 class="card-header">Report and Statistic</h5>
+</div>
+<div class="" id="report__order-card">
+    <div class="card-body">
+        <div class="table-responsive text-nowrap">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Date created</th>
+                        <th>Customer name</th>
+                        <th>User creator</th>
+                        <th>Total amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="report__order-tbody">
+                    {{#each orderList}}
+                    <tr>
+                        <td>{{sum @index 1}}</td>
+                        <td>{{convertDateTimeVersion2 this.date_created}}</td>
+                        <td>{{this.customer_db.customer_first_name}} {{this.customer_db.customer_last_name}}
+                        </td>
+                        <td>{{this.user_db.user_first_name}} {{this.user_db.user_last_name}}</td>
+                        <td>{{this.total_amount}} $</td>
+                        <td class="text-center">
+                            <div class="dropdown">
+                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                </button>
+                                <div class="dropdown-menu" style="z-index:99;">
+                                    <button data-bs-toggle="modal" data-bs-target="#backDropModal_view-order"
+                                        data-order_id="{{this.order_id}}" class="dropdown-item btn-show-views">
+                                        <i class='bx bx-cart-alt'></i> View</button>
+                                    <button data-bs-toggle="modal" data-bs-target="#backDropModal_edit-product"
+                                        class="dropdown-item btn-show-details"><i class="bx bx-edit-alt me-1"></i>
+                                        Download</button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <nav aria-label="Page navigation" style="margin-right: 23px">
+        <ul class="pagination justify-content-end">
+            <li class="page-item prev btn-pagination" data-href="{{#if (equal (minus currentPage 1) 0)}}1{{else}}{{minus currentPage 1}}{{/if}}">
+                <a class="page-link"
+                    ><i
+                        class="tf-icon bx bx-chevrons-left"></i></a>
+            </li>
+            {{#each totalPages}} {{!-- get parent scope because we are in the loop --}}
+            <li class="page-item btn-pagination {{#if (equal ../currentPage this) }}active{{/if}}" data-href="{{this}}">
+                <a class="page-link" >{{this}}</a>
+            </li>
+            {{/each}}
+            <li class="page-item next btn-pagination" data-href="{{#if (moreOrEqualThan (sum currentPage 1) (getArrayLength totalPages) ) }}{{getArrayLength totalPages}}{{else}}{{sum currentPage 1}}{{/if}}">
+                <a class="page-link"
+                    ><i
+                        class="tf-icon bx bx-chevrons-right"></i></a>
+            </li>
+        </ul>
+    </nav>
+
+</div>

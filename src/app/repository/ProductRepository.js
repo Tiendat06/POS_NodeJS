@@ -2,6 +2,7 @@ const Product = require('../models/Product');
 const fs = require("fs");
 const bwipjs = require("bwip-js");
 const path = require('path');
+const Category = require('../models/Category');
 
 class ProductRepository{
 
@@ -79,6 +80,57 @@ class ProductRepository{
         .catch(error => {
             return error;
         })
+    }
+
+    async searchProductByRegex(req, search_name){
+        const regex = new RegExp(search_name, 'i');
+        const page = parseInt(req.params["page"]) || 1;
+        const perPage = 6;
+        const totalCount = await Product.countDocuments();
+        const totalPages = Math.ceil(totalCount / perPage);
+
+        return Promise.all([
+            Product.aggregate([
+                {
+                    $match: {
+                        deleted: false,
+                        product_name: {
+                            $regex: regex
+                        }
+                    }
+                },
+                {
+                    $lookup: {
+                        from: "category",
+                        localField: "category_id",
+                        foreignField: "category_id",
+                        as: "category_db",
+                    },
+                },
+                {
+                    $unwind: "$category_db",
+                },
+            ])
+                .skip((page - 1) * perPage)
+                .limit(perPage),
+            Category.find(),
+        ])
+            .then(([result, category]) => {
+                if (result && category) {
+                    return {
+                        result,
+                        page,
+                        totalPages,
+                        totalCount,
+                        category,
+                    };
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch((err) => {
+                return err;
+            });
     }
 
 }

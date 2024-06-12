@@ -48,6 +48,31 @@ class ReportService{
             return error;
         })
     }
+
+    async filterOrderAndOrderDetailsAndPaymentByDate(req, requestJson){
+        var dateFrom = requestJson.dateFrom;
+        var dateTo = requestJson.dateTo;
+
+        return reportRepository.filterOrderAndOrderDetailsAndPaymentByDate(req, dateFrom, dateTo)
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
+
+    async getPaymentInfosByDate(req, requestJson){
+        var dateFrom = requestJson.dateFrom;
+        var dateTo = requestJson.dateTo;
+        return reportRepository.getPaymentInfosByDate(req, dateFrom, dateTo)
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
+    }
 }
 
 module.exports = new ReportService;

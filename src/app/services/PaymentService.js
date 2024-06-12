@@ -13,9 +13,9 @@ class PaymentService {
         var customer_phone_number = requestJson.customer_phone_number;
         var customer_id = '';
         // console.log(customer_id);
-        if(customer_phone_number != undefined && customer_phone_number != ''){
+        if (customer_phone_number != undefined && customer_phone_number != '') {
             var customer = await customerRepository.findCustomerByPhoneNumber(customer_phone_number);
-            if(customer){
+            if (customer) {
                 customer_id = customer.customer_id;
             }
         }
