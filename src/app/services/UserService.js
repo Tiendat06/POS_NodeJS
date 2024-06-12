@@ -224,10 +224,15 @@ class UserService{
 
     async user_info(req){
         var email = req.session.account;
-        return User.findOne({user_email: email})
+        var user = await User.findOne({user_email: email});
+        var account_id = user.account_id;
+        return Account.findOne({account_id: account_id})
         .then(result => {
             if(result){
-                return result
+                return {
+                    result,
+                    user
+                }
             } else{
                 throw new Error();
             }

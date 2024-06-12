@@ -6,6 +6,12 @@ const siteMiddleWare = require('../app/middleware/SiteMiddleWare');
 // [GET] /
 router.get("/", siteMiddleWare.index);
 
+// [GET] /success
+router.get('/success', siteController.success);
+
+// [GET] /fail
+router.get('/fail', siteController.fail);
+
 // [POST] /home/order
 router.post('/home/order', siteMiddleWare.home_order);
 

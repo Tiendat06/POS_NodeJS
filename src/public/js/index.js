@@ -213,9 +213,26 @@ function jsInEveryPage() {
             return response.json();
         })
         .then(data => {
-            var user_img = data.user_img;
-            var user_first_name = data.user_first_name;
-            var user_last_name = data.user_last_name;
+            // console.log(data);
+            var user_img = data.user.user_img;
+            var user_role = data.result.role_id;
+            var user_first_name = data.user.user_first_name;
+            var user_last_name = data.user.user_last_name;
+
+            if(user_role != 1){
+                var real_price = $('.product_real_price');
+                var real_price_th = $('#product_real_price-th');
+                var side_bar_account = $('#side_bar_account');
+                var side_bar_user = $('#side_bar_user');
+
+                for(let i = 0; i < real_price.length; i++){
+                    real_price[i].remove();
+                }
+                real_price_th.remove();
+                side_bar_account.remove();
+                side_bar_user.remove();
+            }
+
             $("#userImgHome").attr('src', user_img);
             $("#userImgHome_2").attr('src', user_img);
             $("#userNameHome").html(`${user_first_name} ${user_last_name}`);
@@ -498,7 +515,7 @@ function jsInCustomer(){
                 },
                 error: function(error){
                     console.log(error);
-                    // $('#customer-order__tbody').html(error);
+                    $('#customer-order__tbody').html(error);
                 },
                 complete: function(){
                     ajaxCompleteInCustomer();
@@ -638,8 +655,8 @@ function jsInHome(){
             if(customer_given !== undefined && customer_given !== ''){
                 given_change = parseFloat(customer_given) - parseFloat(totalBill);
             }
-            $('#given-change__inp').val(given_change);
-            $('.given-change__price').html(`${given_change} $`);
+            $('#given-change__inp').val(given_change.toFixed(2));
+            $('.given-change__price').html(`${given_change.toFixed(2)} $`);
         })
     });
 
@@ -707,7 +724,6 @@ function jsInHome(){
                     $('#customer-info-home').html(error);
                 },
                 complete: function(){
-                    ajaxCompleteInHome()
 
                 }
             })
@@ -766,12 +782,11 @@ function jsInHome(){
                     }),
                     contentType: 'application/json',
                     success: function(response){
+                        // console.log(response.forwardLink);
                         $("#pay-order__status").removeClass('d-none');
                         $("#pay-order__status").addClass('alert-primary');
-                        $("#pay-order__status").html(response);
-                        setTimeout(function(){
-                            location.reload();
-                        }, 5000);
+                        $("#pay-order__status").html('Please wait for the payment !!');
+                        window.location.href = response.forwardLink;
                     },
                     error: function(error){
                         $("#pay-order__status").removeClass('d-none');
@@ -811,32 +826,6 @@ function jsInHome(){
         })
     })
 
-    // order after choose quan
-    // $(document).ready(() => {
-    //     $("#btn_choose-quan").click(function() {
-    //         var quantity = $('#chooseQuantityBackdrop').val();
-    //         var product_id = $('#product_id_choose-quan').val();
-
-    //         $.ajax({
-    //             url: '/home/order',
-    //             type: 'POST',
-    //             data: JSON.stringify({
-    //                 product_id: product_id,
-    //                 quantity: quantity
-    //             }),
-    //             contentType: 'application/json',
-    //             success: function(response){
-    //                 $('#payment-info__order-list').html(response);
-    //             },
-    //             error: function(error){
-
-    //             },
-    //             complete: function(){
-
-    //             }
-    //         })
-    //     })
-    // })
 }
 
 function ajaxCompleteInHome(){
@@ -872,6 +861,30 @@ function jsInLog(){
                 },
                 complete: function(){
 
+                }
+            })
+        })
+    })
+}
+
+function jsInReport(){
+    // view order details
+    $(document).ready(() => {
+        $('.btn-show-views').click(function() {
+            var order_id = $(this).data('order_id');
+
+            $.ajax({
+                url: '/report/view_orders_details',
+                type: 'POST',
+                data: JSON.stringify({
+                    order_id: order_id
+                }),
+                contentType: 'application/json',
+                success: function(response){
+                    $('#order-details__tbody').html(response);
+                },
+                error: function(error){
+                    $('#order-details__tbody').html(error);
                 }
             })
         })

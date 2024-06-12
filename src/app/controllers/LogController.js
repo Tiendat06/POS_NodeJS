@@ -14,6 +14,7 @@
 // const { error } = require("./ErrorController");
 
 const logServices = require('../services/LogService');
+const userService = require('../services/UserService');
 
 class LogController {
     // [GET] /log/login
@@ -30,6 +31,8 @@ class LogController {
         var error = 'Invalid email or password or your account has been banned !!';
         if(await logServices.checkLogin(req, res, next, formData, error) == true){
             req.session.account = formData.email;
+            var user_info = await userService.user_info(req);
+            req.session.role_id = user_info.result.role_id;
             res.redirect('/');
         } else{
             var notInMain = true;

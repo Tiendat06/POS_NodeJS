@@ -12,7 +12,7 @@ class CustomerService{
         const totalCount = await Customer.countDocuments();
         const totalPages = Math.ceil(totalCount / perPage);
 
-        return Customer.find()
+        return Customer.find({ customer_phone_number: { $exists: true, $ne: "" } })
         .skip((page - 1) * perPage)
         .limit(perPage)
         .then(result => {

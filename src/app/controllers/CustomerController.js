@@ -28,6 +28,7 @@ class CustomerController{
         var requestJson = req.body;
         return customerService.view_order(requestJson)
         .then(result => {
+            console.log(result);
             return res.render('customer/view_order', {
                 customerOrder: multipleMongooseToObj(result),
                 isAjax: true,

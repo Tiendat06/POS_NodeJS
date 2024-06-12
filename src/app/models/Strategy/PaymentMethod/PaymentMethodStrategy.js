@@ -9,8 +9,8 @@ class PaymentMethodStrategy{
         this.#strategy = strategy;
     }
 
-    pay(req, requestJson){
-        return this.#strategy.pay(req, requestJson);
+    pay(req, res){
+        return this.#strategy.pay(req, res);
     }
 }
 

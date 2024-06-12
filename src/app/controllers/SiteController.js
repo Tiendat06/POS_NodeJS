@@ -6,6 +6,10 @@ const userRepository = require('../repository/UserRepository');
 const customerService = require('../services/CustomerService');
 const paymentMethodFactory = require('../models/Factory/PaymentMethodFactory');
 const PaymentMethodStrategy = require('../models/Strategy/PaymentMethod/PaymentMethodStrategy');
+const paypal = require('paypal-rest-sdk');
+const paymentService = require('../services/PaymentService');
+const customerRepository = require('../repository/CustomerRepository');
+const paymentRepository = require('../repository/PaymentRepository');
 
 class SiteController {
 
@@ -40,6 +44,51 @@ class SiteController {
                 error: err
             })
         })
+    }
+
+    // [GET] /success
+    async success(req, res, next){
+        if(req.query.PayerID){
+            const payerId = req.query.PayerID;
+            const paymentId = req.query.paymentId;
+        
+            const execute_payment_json = {
+                payer_id: payerId
+            };
+        
+            paypal.payment.execute(paymentId, execute_payment_json, async function (error, payment) {
+                if (error) {
+                    console.log(error);
+                    throw error;
+                } else {
+
+                    // console.log('Pay pal success');
+                    return res.render('site/success');
+                }
+            });
+
+        } else{
+            // paymentService.insertPayment(req, 1)
+            // .then(result => {
+            //     console.log(result);
+            // })
+            // .catch(error => {
+            //     console.log(error);
+            // })
+            // delete req.session.customer_id;
+            // delete req.session.totalBill;
+            // delete req.session.given_change;
+            // delete req.session.customer_given;
+            // console.log('Cash success');
+
+            return res.render('site/success');
+        }
+
+    }
+
+    // [GET] /fail
+    fail(req, res, next){
+        res.render('site/fail');
     }
 
     // [POST] /home/order
@@ -134,14 +183,20 @@ class SiteController {
     async home_payment(req, res, next){
         var requestJson = req.body;
         var payment_method_name = requestJson.payemnt_method;
+
+        var payment_id = await paymentRepository.findPaymentMethodIdByName(payment_method_name).payment_method_id;
         var payment = paymentMethodFactory.createPaymentMethod(payment_method_name);
-        var payment_processor = new PaymentMethodStrategy(payment).pay(req, requestJson);
-        
-        if(payment_processor){
-            delete req.session.order_id;
-            return res.json('Payment Successfully !!');
-        }
-        return res.json('Payment failed !!');
+        var payment_processor = await new PaymentMethodStrategy(payment).pay(req, res);
+        // console.log(payment_processor);
+        paymentService.insertPayment(req, requestJson, payment_id)
+        .then(result => {
+            console.log(result);
+        })
+        .catch(error => {
+            console.log(error);
+        })
+        delete req.session.order_id;
+        return res.json(payment_processor);
     }
 
     // [POST] /home/filter_product

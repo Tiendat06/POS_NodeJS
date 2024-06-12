@@ -4,7 +4,7 @@ class AccountMiddleWare{
 
     // [GET] /account
     index(req, res, next){
-        if(req.session.account){
+        if(req.session.account && req.session.role_id == 1){
             accountController.index(req, res, next);
         }else{
             res.redirect("/");

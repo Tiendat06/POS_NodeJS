@@ -1,4 +1,5 @@
 const Payment = require("../models/Payment");
+const PaymentMethod = require("../models/PaymentMethod");
 
 class PaymentRepository{
     async AUTO_PAY_ID() {
@@ -9,6 +10,16 @@ class PaymentRepository{
             newIdNumber = lastIdNumber + 1;
         }
         return `PAY${newIdNumber.toString().padStart(7, '0')}`;
+    }
+
+    async findPaymentMethodIdByName(payment_method_name){
+        return PaymentMethod.findOne({payment_name: payment_method_name})
+        .then(result => {
+            return result;
+        })
+        .catch(error => {
+            return error;
+        })
     }
 }
 

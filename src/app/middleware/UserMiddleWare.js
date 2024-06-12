@@ -6,7 +6,7 @@ class UserMiddleWare{
     // [GET] /user
     index(req, res, next){
         // const currentPage = req.params['page'] || 1;
-        if(req.session.account){
+        if(req.session.account && req.session.role_id == 1){
             userController.index(req, res, next);
         } else{
             res.redirect("/");

@@ -36,7 +36,8 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.13",
-    "nodemon": "^3.1.0"
+    "nodemon": "^3.1.0",
+    "paypal-rest-sdk": "^1.8.1"
   },
   "devDependencies": {
     "node-sass": "^9.0.0"

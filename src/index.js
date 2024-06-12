@@ -13,10 +13,18 @@ const multer = require('multer');
 const method_override = require('method-override');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+var paypal = require('paypal-rest-sdk');
 
 // dotenv
 dotenv.config();
+
+// paypal
+paypal.configure({
+    'mode': 'sandbox', //sandbox or live
+    'client_id': process.env.CLIENT_ID,
+    'client_secret': process.env.CLIENT_SECRET
+});
 
 // cloudinary
 cloudinary.v2.config({
@@ -75,3 +83,5 @@ app.use(morgan('tiny'));
 route(app);
 
 app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
+
+// AfqyHnzZEZIZwM9lRyIWs_TyukXIWxbTW9Kv39eCPk_0Ox51oJgdgWmo33FNqZ85X2LPlpEYYCpVZM2a

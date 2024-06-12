@@ -36,12 +36,12 @@ class CustomerRepository{
         })
     }
 
-    async updateCustomerPoint(customer_phone){
-        var customer = await Customer.findOne({customer_phone_number: customer_phone});
+    async updateCustomerPoint(customer_id){
+        var customer = await Customer.findOne({customer_id: customer_id});
         var customer_point = customer.customer_point;
         var new_customer_point = customer_point + 1;
 
-        return Customer.updateOne({customer_phone_number: customer_phone}, {
+        return Customer.updateOne({customer_id: customer_id}, {
             customer_point: new_customer_point
         })
         .then(result => {

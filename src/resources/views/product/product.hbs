@@ -45,7 +45,7 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
-                                    <th>Import Price</th>
+                                    <th id="product_real_price-th">Import Price</th>
                                     <th>Retail Price</th>
                                     <th>Category</th>
                                     <th>Quantity</th>
@@ -74,8 +74,8 @@
                                             <strong>{{this.product_name}}</strong>
                                         </ul>
                                     </td>
-                                    <td>{{this.real_price}}</td>
-                                    <td>{{this.retail_price}}</td>
+                                    <td class="product_real_price">{{this.real_price}} $</td>
+                                    <td>{{this.retail_price}} $</td>
                                     <td>{{this.category_db.category_name}}</td>
                                     <td>{{this.quantity}}</td>
                                     <td>{{convertDate (convertDateTime this.createAt)}}</td>
@@ -83,26 +83,7 @@
                                     <td>
                                         <img width="80" height="40" src="{{this.product_barcode}}" alt="" srcset="">
                                     </td>
-                                    {{!-- <td>
-                                        <ul class="list-unstyled users-list m-0 avatar-group d-flex align-items-center">
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
-                                                title="Lilian Fuller">
-                                                <img src="/img/avatars/5.png" alt="Avatar" class="rounded-circle" />
-                                            </li>
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
-                                                title="Sophia Wilkerson">
-                                                <img src="/img/avatars/6.png" alt="Avatar" class="rounded-circle" />
-                                            </li>
-                                            <li data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                                data-bs-placement="top" class="avatar avatar-xs pull-up"
-                                                title="Christina Parker">
-                                                <img src="/img/avatars/7.png" alt="Avatar" class="rounded-circle" />
-                                            </li>
-                                        </ul>
-                                    </td> --}}
-                                    {{!-- <td><span class="badge bg-label-primary me-1">Active</span></td> --}}
+
                                     <td class="text-center">
                                         <div class="dropdown">
                                             <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
