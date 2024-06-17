@@ -763,6 +763,7 @@ function jsInHome() {
                 customer_phone_number = '';
             }
             if (customer_given == undefined || customer_given == '' || parseFloat(customer_given) < parseFloat(totalBill)) {
+                $('#toast-para').html(`Please order product first !!`);
                 $('#toast').removeClass('d-none');
                 $('#toast').addClass('bg-danger');
                 setTimeout(function () {
