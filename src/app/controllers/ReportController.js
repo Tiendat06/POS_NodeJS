@@ -30,8 +30,8 @@ class ReportController{
                 totalPages: pagesArray,
                 totalOrder: paymentInfos[0],
                 totalProductQuantity: totalProductQuantity,
-                totalAmount: totalAmount,
-                totalProfit: totalProfit
+                totalAmount: totalAmount.toFixed(2),
+                totalProfit: totalProfit.toFixed(2),
             });
         })
         .catch(error => {
