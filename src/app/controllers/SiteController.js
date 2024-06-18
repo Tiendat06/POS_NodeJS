@@ -10,6 +10,7 @@ const paypal = require('paypal-rest-sdk');
 const paymentService = require('../services/PaymentService');
 const customerRepository = require('../repository/CustomerRepository');
 const paymentRepository = require('../repository/PaymentRepository');
+const voucherService = require('../services/VoucherService');
 
 class SiteController {
 
@@ -22,11 +23,30 @@ class SiteController {
             var order = await orderRepository.findOrderByUserIdAndDateCreated(user_id);
             req.session.order_id = order.order_id;
         }
+
         productService.index(req, 6)
         .then(async (result) => {
             const pagesArray = Array.from({ length: result.totalPages }, (_, i) => i + 1);
             const orderList = await orderService.get_order_in_home(req);
-            const totalBill = await orderService.calculate_total_bill(req);
+            var totalBill = await orderService.calculate_total_bill(req);
+            const voucherList = await voucherService.findAllVoucher();
+            var voucher = req.session.voucher;
+            var voucher_name = '';
+            var customer_phone = '';
+            var totalCost = totalBill[0].totalAmount;
+
+            if(req.session.customer_phone_number){
+                customer_phone = req.session.customer_phone_number;
+            }
+            if(req.session.voucher){
+                var customer = await customerRepository.findCustomerByPhoneNumber(customer_phone);
+                var customer_point = parseInt(customer.customer_point);
+                var voucher_discount = parseInt(voucher.voucher_discount);
+                var totalPoint = customer_point - voucher_discount;
+                if(totalPoint >= 0){
+                    totalCost = parseFloat(totalCost) - ((parseFloat(voucher.voucher_discount) / 100) * 100);
+                }
+            }
 
             // console.log(totalBill[0].totalAmount);
             res.render('home', {
@@ -35,7 +55,10 @@ class SiteController {
                 currentPage: result.page,
                 totalPages: pagesArray,
                 orderList: multipleMongooseToObj(orderList),
-                totalBill: totalBill[0].totalAmount
+                totalBill: totalCost,
+                voucherList: multipleMongooseToObj(voucherList),
+                voucher: (voucher),
+                customer_phone: customer_phone
             });
         })
         .catch(err => {
@@ -68,19 +91,6 @@ class SiteController {
             });
 
         } else{
-            // paymentService.insertPayment(req, 1)
-            // .then(result => {
-            //     console.log(result);
-            // })
-            // .catch(error => {
-            //     console.log(error);
-            // })
-            // delete req.session.customer_id;
-            // delete req.session.totalBill;
-            // delete req.session.given_change;
-            // delete req.session.customer_given;
-            // console.log('Cash success');
-
             return res.render('site/success');
         }
 
@@ -144,6 +154,7 @@ class SiteController {
         return customerService.findCustomerByPhone(customer_phone)
         .then(result => {
             // console.log(result);
+            req.session.customer_phone_number = customer_phone;
             return res.render('site/find_cus_by_phone', {
                 customer_info: mongooseToObj(result),
                 customerIsExist: true,
@@ -199,6 +210,8 @@ class SiteController {
         .catch(error => {
             console.log(error);
         })
+        delete req.session.customer_phone_number;
+        delete req.session.voucher;
         delete req.session.order_id;
         return res.json(payment_processor);
     }
@@ -223,6 +236,7 @@ class SiteController {
         })
     }
 
+    // [POST] /home/search_product
     async filter_product_by_name(req, res, next){
         var requestJson = req.body;
         return productService.searchProductByRegex(req, requestJson)
@@ -244,6 +258,37 @@ class SiteController {
                 isAjax: true
             })
         })
+    }
+
+    // [GET] /home/add_voucher
+    async add_voucher(req, res, next, voucher_id){
+        return voucherService.findVoucherById(voucher_id)
+            .then(result => {
+                if(result){
+                    console.log(result);
+                    req.session.voucher = result;
+                    return res.redirect('/');
+                }
+                throw new Error();
+            })
+            .catch(error => {
+                return res.redirect('/error', {
+                    error: error
+                })
+            })
+    }
+
+//     [POST] /home/count_customer_voucher
+    async count_customer_voucher(req, res, next, requestJson){
+        return voucherService.countCustomerPoint(requestJson)
+            .then(result => {
+                // console.log(result.customer_point);
+                return res.json(result.customer_point);
+            })
+            .catch(error => {
+                console.log(error);
+                return res.json(0);
+            })
     }
 }
 

@@ -7,10 +7,10 @@ const siteMiddleWare = require('../app/middleware/SiteMiddleWare');
 router.get("/", siteMiddleWare.index);
 
 // [GET] /success
-router.get('/success', siteController.success);
+router.get('/success', siteMiddleWare.success);
 
 // [GET] /fail
-router.get('/fail', siteController.fail);
+router.get('/fail', siteMiddleWare.fail);
 
 // [POST] /home/search_product
 router.post('/home/search_product', siteController.filter_product_by_name);
@@ -35,6 +35,12 @@ router.post('/home/accumulate_customer_order', siteController.accumulate_custome
 
 // [POST] /home/home_payment
 router.post('/home/home_payment', siteController.home_payment);
+
+// [GET] /home/add_voucher?voucher_id=''
+router.get('/home/add_voucher', siteMiddleWare.add_voucher);
+
+// [POST] /home/count_customer_voucher
+router.post('/home/count_customer_voucher', siteMiddleWare.count_customer_voucher);
 
 // [POST] /home/:page
 router.post('/home/pagination_AJAX/:page', siteController.filter_product_by_name);

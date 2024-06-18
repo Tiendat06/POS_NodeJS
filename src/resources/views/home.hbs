@@ -574,6 +574,13 @@
                     <p class="total-bill__description mb-0">Total Bill:</p>
                     <p class="total-bill__price mb-0">{{totalBill}} $</p>
                 </div>
+                {{#if voucher}}
+                    <input type="hidden" name="" id="customer_voucher" value="{{voucher.voucher_id}}">
+                <div class="mb-3 total-bill d-flex justify-content-between align-items-center">
+                    <p class="total-bill__description mb-0">Voucher:</p>
+                    <p class="total-bill__price mb-0">{{voucher.voucher_name}}</p>
+                </div>
+                {{/if}}
                 <div class="mb-3 customer-give d-flex justify-content-between align-items-center">
                     <p class="customer-given__description mb-0 col-lg-6 col-md-6 col-sm-6">Customer Given:</p>
                     <div class="customer-given__inp-block col-lg-2 col-md-2 col-sm-2">
@@ -774,6 +781,13 @@
                                 Find Phone
                             </button>
                         </li>
+                        <li class="nav-item">
+                            <button type="button" class="nav-link" role="tab" data-bs-toggle="tab"
+                                    data-bs-target="#navs-top-voucher" aria-controls="navs-top-voucher"
+                                    aria-selected="false">
+                                Voucher
+                            </button>
+                        </li>
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="navs-top-home" role="tabpanel">
@@ -800,7 +814,7 @@
                             <div class="input-group" style="">
                                 <span class="input-group-text" id="basic-addon-search31"><i
                                         class="bx bx-search"></i></span>
-                                <input type="text" class="form-control" id="customer-phone__inp"
+                                <input type="text" class="form-control" id="customer-phone__inp" value="{{customer_phone}}"
                                     name="customer-phone__inp" placeholder="Phone number" aria-label="Phone number"
                                     aria-describedby="button-addon2" />
                                 <button class="btn btn-primary"
@@ -811,6 +825,69 @@
                                 <div class="alert alert-primary w-100 mt-3 mb-0 text-center d-none" role="alert"
                                     style="border-radius: 10px;">This is a primary alert — check it out!</div>
 
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="navs-top-voucher" role="tabpanel">
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button type="button" class="accordion-button collapsed" id="customer-voucher__point" data-bs-toggle="collapse"
+                                            data-bs-target="#accordionTwo" aria-expanded="false"
+                                            aria-controls="accordionTwo">
+                                        Point (0)
+                                        <input type="hidden" name="" id="customer-point">
+                                    </button>
+                                </h2>
+                                <div id="accordionTwo" class="accordion-collapse collapse"
+                                     aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body">
+                                        <div class="table-responsive text-nowrap">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Name</th>
+                                                    <th>Discount</th>
+                                                    <th>Point</th>
+                                                    <th>Description</th>
+                                                    <th>Actions</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {{#each voucherList}}
+                                                    <tr>
+                                                        <td>{{sum @index 1}}</td>
+                                                        <td><strong>{{this.voucher_name}}</strong></td>
+                                                        <td>{{this.voucher_discount}} %</td>
+                                                        <td>{{this.voucher_discount}} point</td>
+                                                        <td>{{this.voucher_description}}</td>
+
+                                                        <td class="text-center">
+                                                            <div class="dropdown">
+                                                                <button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+                                                                        data-bs-toggle="dropdown">
+                                                                    <i class="bx bx-dots-vertical-rounded"></i>
+                                                                </button>
+                                                                <div disabled class="dropdown-menu" style="z-index:99;">
+                                                                    <a href="/home/add_voucher?voucher={{this.voucher_id}}"
+                                                                            data-voucher_id="{{this.voucher_id}}"
+                                                                            class="dropdown-item btn-add-voucher"><i
+                                                                            class="bx bx-edit-alt me-1"></i> Add</a>
+<!--                                                                    <button data-bs-toggle="modal"-->
+<!--                                                                            data-bs-target="#backDropModal_delete-product"-->
+<!--                                                                            data-product_id="{{this.voucher_id}}"-->
+<!--                                                                            data-product_name="{{this.product_name}}"-->
+<!--                                                                            class="dropdown-item btn-show-delete"><i-->
+<!--                                                                            class="bx bx-trash me-1"></i> Delete</button>-->
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {{/each}}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 

@@ -12,6 +12,22 @@ class SiteMiddleWare{
         }
     }
 
+    async success(req, res, next){
+        if(req.session.account){
+            siteController.success(req, res, next);
+        }else{
+            res.redirect('/');
+        }
+    }
+
+    async fail(req, res, next){
+        if(req.session.account){
+            siteController.fail(req, res, next);
+        }else{
+            res.redirect('/');
+        }
+    }
+
     // [POST] /home/order
     home_order(req, res, next){
         var formData = req.body;
@@ -120,6 +136,27 @@ class SiteMiddleWare{
         } else{
             siteController.filter_product(req, res, next, requestJson);
         }
+    }
+
+    async add_voucher(req, res, next){
+        var voucher_id = req.query.voucher;
+        // console.log(voucher_id);
+        if(voucher_id == undefined || voucher_id == ''){
+            res.redirect('/');
+        } else{
+            siteController.add_voucher(req, res, next, voucher_id);
+        }
+    }
+
+    count_customer_voucher(req, res, next){
+        var requestJson = req.body;
+        var customer_phone = requestJson.customer_phone;
+        if(customer_phone == undefined || customer_phone == ''){
+            res.json(0)
+        } else{
+            siteController.count_customer_voucher(req, res, next, requestJson);
+        }
+
     }
 }
 

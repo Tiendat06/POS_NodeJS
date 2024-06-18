@@ -3,13 +3,9 @@ const paymentService = require('../../../services/PaymentService');
 
 class PaypalMethod{
     async pay(req, res){
-        // paymentService.insertPayment(req, requestJson, 3)
-        // .then(result => {
-        //     console.log(result);
-        // })
-        // .catch(error => {
-        //     console.log(error);
-        // })
+        var requestJson = req.body;
+        var totalBill = requestJson.totalBill;
+        // console.log(totalBill);
         return new Promise((resolve, reject) => {
             const create_payment_json = {
                 "intent": "sale",
@@ -25,14 +21,14 @@ class PaypalMethod{
                         "items": [{
                             "name": "item",
                             "sku": "item",
-                            "price": "1.00",
+                            "price": parseFloat(totalBill).toFixed(2),
                             "currency": "USD",
                             "quantity": 1
                         }]
                     },
                     "amount": {
                         "currency": "USD",
-                        "total": "1.00"
+                        "total": parseFloat(totalBill).toFixed(2),
                     },
                     "description": "This is the payment description."
                 }]

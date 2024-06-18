@@ -746,7 +746,7 @@ function jsInHome() {
             }
             $('.backdrop__total-bill').html(`Total bill: ${totalBill} $`);
             $('.backdrop__customer-given').html(`Customer given: ${customer_given} $`);
-            $('.backdrop__given-change').html(`Given change: ${given_change} $`);
+            $('.backdrop__given-change').html(`Given change: ${given_change.toFixed(2)} $`);
             $('.backdrop__payment-method').html(`Payment method: ${payemnt_method}`);
             // console.log(payemnt_method);
         })
@@ -759,12 +759,18 @@ function jsInHome() {
             var customer_phone_number = $('#customer-phone__inp').val();
             var totalBill = $('#customer-given__total-bill').val();
             var customer_given = $('#customer-given__inp').val();
+            var customer_voucher_id = $('#customer_voucher').val();
+            console.log(customer_voucher_id);
             if (customer_phone_number == undefined || customer_phone_number == '') {
                 customer_phone_number = '';
             }
+            if(customer_voucher_id == undefined || customer_voucher_id == ''){
+                customer_voucher_id = '';
+            }
             if (customer_given == undefined || customer_given == '' || parseFloat(customer_given) < parseFloat(totalBill)) {
-                $('#toast-para').html(`Please order product first !!`);
+                $('#toast-para').html(`There are not enough information !!`);
                 $('#toast').removeClass('d-none');
+                $('#toast').addClass('show');
                 $('#toast').addClass('bg-danger');
                 setTimeout(function () {
                     $('#toast').addClass('d-none');
@@ -780,7 +786,8 @@ function jsInHome() {
                         totalBill: totalBill,
                         given_change: given_change,
                         customer_given: customer_given,
-                        payemnt_method: payemnt_method
+                        payemnt_method: payemnt_method,
+                        customer_voucher_id: customer_voucher_id
                     }),
                     contentType: 'application/json',
                     success: function (response) {
@@ -853,6 +860,34 @@ function jsInHome() {
         })
     })
 
+//     count customer voucher
+    $(document).ready(() => {
+        $('#button__find-customer').click(function () {
+            var customer_phone_number = $('#customer-phone__inp').val();
+
+            $.ajax({
+                url: '/home/count_customer_voucher',
+                type: 'POST',
+                data: JSON.stringify({
+                    customer_phone: customer_phone_number
+                }),
+                contentType: 'application/json',
+                success: function (response) {
+                    $('#customer-voucher__point').html(`Ponit (${response})`);
+                    $('#customer-point').val(response);
+                },
+                error: function (error) {
+                    // $('#customer-info-home').removeClass('d-none');
+                    console.log(error);
+                    console.log('error');
+                    $('#customer-voucher__point').html(error);
+                },
+                complete: function () {
+
+                }
+            })
+        })
+    })
 }
 
 function ajaxCompleteInHome() {

@@ -5,18 +5,28 @@ const customerRepository = require("../repository/CustomerRepository");
 const orderRepository = require("../repository/OrderRepository");
 const paymentRepository = require("../repository/PaymentRepository");
 const Customer = require('../models/Customer');
+const voucherRepository = require("../repository/VoucherRepository");
 
 class PaymentService {
     async insertPayment(req, requestJson, payment_method_id) {
         const order_id = req.session.order_id;
         const payment_id = await paymentRepository.AUTO_PAY_ID();
         var customer_phone_number = requestJson.customer_phone_number;
+        var voucher_id = requestJson.customer_voucher_id;
         var customer_id = '';
-        // console.log(customer_id);
+
         if (customer_phone_number != undefined && customer_phone_number != '') {
             var customer = await customerRepository.findCustomerByPhoneNumber(customer_phone_number);
             if (customer) {
                 customer_id = customer.customer_id;
+                if(voucher_id != undefined && voucher_id != ''){
+                    var customer_voucher_id = await voucherRepository.AUTO_CSV_ID();
+                    var voucher = await voucherRepository.findVoucherById(voucher_id);
+                    var customer_point = customer.customer_point;
+                    var pointReduced = parseInt(customer_point) - parseInt(voucher.voucher_discount);
+                    await voucherRepository.updateCustomerVoucher(customer_voucher_id, customer_id, voucher_id);
+                    await customerRepository.updateCustomerPoint(customer_phone_number, pointReduced);
+                }
             }
         }
 
@@ -35,7 +45,7 @@ class PaymentService {
         var promiseUpdatePoint = new Promise(async (resolve, reject) => {
 
             if (customer_id != "") {
-                customerRepository.updateCustomerPoint(customer_id);
+                customerRepository.updateCustomerPointPayment(customer_id);
                 resolve();
             }
         });
