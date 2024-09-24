@@ -4,7 +4,7 @@ async function connect(){
     try {
         // mongodb+srv://tadat290903:Khinaobacanli290903@mongoonlinecluster.ghvpe.mongodb.net/
         // mongodb://localhost:27017/
-        await mongoose.connect('mongodb+srv://tadat290903:Khinaobacanli290903@mongoonlinecluster.ghvpe.mongodb.net/POS')
+        await mongoose.connect('mongodb+srv://tadat290903:Khinaobacanli290903@mongoonlinecluster.ghvpe.mongodb.net/POS?retryWrites=true&w=majority')
             .then(() => console.log('Connected!'));
             // console.log("Connected !")
     } catch (error) {
