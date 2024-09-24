@@ -44,7 +44,7 @@ class CustomerMiddleWare{
         } else if(await customerRepository.checkCustomerPhoneIsExist(customer_phone) && customer_phone != customer_old_phone){
             res.json(responseData.phone);
         } else {
-            customerController.edit_customer(req, res, next, requestJson, responseData);
+            await customerController.edit_customer(req, res, next, requestJson, responseData);
         }
     }
 }
