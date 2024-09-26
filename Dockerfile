@@ -2,7 +2,7 @@ FROM node:20.11.1-alpine
 WORKDIR /src/app
 
 COPY package*.json ./
-RUN npm i
+RUN npm install --production
 
 COPY . .
 EXPOSE 3000

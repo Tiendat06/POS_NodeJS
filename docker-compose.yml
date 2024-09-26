@@ -8,6 +8,9 @@ services:
       - mongodb
 
   mongodb:
+    container_name: database_container
     image: mongo
+    volumes:
+      - ./mongo-init:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"

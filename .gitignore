@@ -4,3 +4,4 @@ public/css/app.css
 Dockerfile
 docker-compose.yml
 .dockerignore
+.idea
