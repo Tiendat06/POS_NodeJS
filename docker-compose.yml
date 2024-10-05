@@ -5,6 +5,8 @@ services:
       - "3000:3000"
     depends_on:
       - mongodb
+    networks:
+      - webnet
 
   mongodb:
     container_name: database_container
@@ -13,3 +15,8 @@ services:
       - ./mongo-init:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"
+    networks:
+      - webnet
+
+networks:
+  webnet:
