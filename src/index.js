@@ -17,6 +17,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 var paypal = require('paypal-rest-sdk');
+const os = require("node:os");
 
 // dotenv
 dotenv.config();
@@ -86,6 +87,11 @@ app.use(morgan('tiny'));
 // router.get('', function(req, res, next){
 //
 // });
+
+app.get('/log/instance', function(req, res, next){
+    const hostname = os.hostname();
+    res.send(`Running on host: ${hostname}`)
+});
 
 // Route
 route(app);
