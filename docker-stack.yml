@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  app:
+    image: pos-app:v1
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongodb
+      - redis
+    networks:
+      - webnet
+    deploy:
+      replicas: 3 # Scale the app to 3 instances
+      update_config:
+        parallelism: 2
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx1.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - app
+    networks:
+      - webnet
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - webnet
+
+  mongodb:
+    container_name: database_container
+    image: mongo:latest
+    volumes:
+      - ./mongo-init:/docker-entrypoint-initdb.d
+    ports:
+      - "27017:27017"
+    networks:
+      - webnet
+
+networks:
+  webnet:

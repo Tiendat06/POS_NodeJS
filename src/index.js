@@ -6,7 +6,7 @@ const { engine } = require('express-handlebars');
 const path = require('path');
 const session = require('express-session');
 const redisStore = require('connect-redis').default;
-const {createClient} = require('redis');
+const { createClient } = require('redis');
 const route = require('./routes');
 const db = require("./config/db");
 const templatesEngine = require('./utils/handlebars');
@@ -16,6 +16,7 @@ const method_override = require('method-override');
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const os = require('os');
 var paypal = require('paypal-rest-sdk');
 
 // dotenv
@@ -56,13 +57,13 @@ redisClient.connect().catch(err => console.log(err));
 
 // session middleware
 app.use(session({
-    store: new redisStore({client: redisClient}),
+    store: new redisStore({ client: redisClient }),
     secret: '123456', // Khóa bí mật để ký session ID cookie
     resave: false, // Không lưu session nếu không có thay đổi
     saveUninitialized: true, // Lưu session mới ngay cả khi không có dữ liệu
-    cookie: { 
+    cookie: {
         secure: false,
-        maxAge: 60 * 60 * 1000 
+        maxAge: 60 * 60 * 1000
     } // Thiết lập cookie (secure: true chỉ cho HTTPS)
 }));
 
@@ -88,7 +89,14 @@ app.use(morgan('tiny'));
 // });
 
 // Route
+app.get('/log/instance', (req, res) => {
+    // Get the hostname of the current instance
+    const hostname = os.hostname();
+    res.send(`Running on instance: ${hostname}`);
+});
 route(app);
+
+
 
 app.listen(PORT, () => console.log(`Running on http://localhost:${PORT}`));
 
