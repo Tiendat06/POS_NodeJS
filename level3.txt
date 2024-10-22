@@ -1,5 +1,0 @@
-step1: docker load -i app.tar
-step2: docker swarm init
-step3: docker stack deploy -c docker-stack.yml my-app
-step4: docker stack services my-app
-step5: enjoy your app with Docker Swarm!!!

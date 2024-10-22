@@ -94,6 +94,7 @@ app.get('/log/instance', (req, res) => {
     const hostname = os.hostname();
     res.send(`Running on instance: ${hostname}`);
 });
+
 route(app);
 
 
