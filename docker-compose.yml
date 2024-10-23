@@ -6,6 +6,10 @@ services:
     depends_on:
       - mongodb
       - redis
+    #    deploy:
+    #      replicas: 3
+    #      update_config:
+    #        parallelism: 2
     networks:
       - webnet
 
@@ -54,10 +58,15 @@ services:
     container_name: database_container
     image: mongo:latest
     volumes:
+      - mongodb_data:/data/db
       - ./mongo-init:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"
     networks:
       - webnet
+
+volumes:
+  mongodb_data:
+    driver: local
 networks:
   webnet:

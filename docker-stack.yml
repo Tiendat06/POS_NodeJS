@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   app:
@@ -38,11 +38,15 @@ services:
     container_name: database_container
     image: mongo:latest
     volumes:
+      - mongodb_data:/data/db
       - ./mongo-init:/docker-entrypoint-initdb.d
     ports:
       - "27017:27017"
     networks:
       - webnet
 
+volumes:
+  mongodb_data:
+    driver: local
 networks:
   webnet:
