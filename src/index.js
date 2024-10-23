@@ -50,14 +50,14 @@ app.use(express.urlencoded({
 app.use(express.json());
 // app.use(bodyParser.json());
 
-const redisClient = createClient({
-    url: `redis://${process.env.REDIS_HOST}:6379`
-});
-redisClient.connect().catch(err => console.log(err));
+// const redisClient = createClient({
+//     url: `redis://${process.env.REDIS_HOST}:6379`
+// });
+// redisClient.connect().catch(err => console.log(err));
 
 // session middleware
 app.use(session({
-    store: new redisStore({ client: redisClient }),
+    // store: new redisStore({ client: redisClient }),
     secret: '123456', // Khóa bí mật để ký session ID cookie
     resave: false, // Không lưu session nếu không có thay đổi
     saveUninitialized: true, // Lưu session mới ngay cả khi không có dữ liệu
