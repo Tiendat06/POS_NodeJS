@@ -6,10 +6,6 @@ services:
     depends_on:
       - mongodb
       - redis
-    #    deploy:
-    #      replicas: 3
-    #      update_config:
-    #        parallelism: 2
     networks:
       - webnet
 
