@@ -151,9 +151,11 @@ class UserMiddleWare{
             || old_email == null || old_email == undefined
         ){
             res.json(responseData.empty);
-        } else if(await userRepository.checkEmail(email) && old_email != email){
-            res.json(responseData.email);
-        } else{
+        }
+        // else if(await userRepository.checkEmail(email) && old_email != email){
+        //     res.json(responseData.email);
+        // }
+        else{
             userController.edit_profile(req, res, next, formData, responseData);
         }
     }

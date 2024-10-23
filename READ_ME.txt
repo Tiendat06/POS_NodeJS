@@ -5,7 +5,7 @@ step3: you can delete the app by using "docker-compose down" or stop the app by 
 
 Level 3 with Docker Swarm init:
 go to POS_NODEJS folder and following these step:
-step1: docker load -i app.tar (load the image)
+step1: docker build -t pos-app:v1 .
 step2: docker swarm init
 step3: docker stack deploy -c docker-stack.yml my-app
 step4: docker stack services my-app (this command line to check whether our services are on)
