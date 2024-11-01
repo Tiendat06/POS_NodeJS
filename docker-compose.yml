@@ -2,34 +2,12 @@ services:
   app:
     build: .
     ports:
-      - "3000:3000"
+      - ":3000"
     depends_on:
       - mongodb
       - redis
-    #    deploy:
-    #      replicas: 3
-    #      update_config:
-    #        parallelism: 2
-    networks:
-      - webnet
-
-  app2:
-    build: .
-    ports:
-      - "3001:3000"
-    depends_on:
-      - mongodb
-      - redis
-    networks:
-      - webnet
-
-  app3:
-    build: .
-    ports:
-      - "3002:3000"
-    depends_on:
-      - mongodb
-      - redis
+    deploy:
+     replicas: 3
     networks:
       - webnet
 
@@ -41,8 +19,6 @@ services:
       - ./nginx.conf:/etc/nginx/nginx.conf
     depends_on:
       - app
-      - app2
-      - app3
     networks:
       - webnet
 
